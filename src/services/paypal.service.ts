@@ -3,7 +3,6 @@ import axios from 'axios';
 
 interface IBody {
   price: number;
-  type: string;
   refId: string;
   description: string;
   user: string;
@@ -39,7 +38,7 @@ export class PayPalService {
       );
     }
   }
-  public async createOrder(body: IBody): Promise<string> {
+  public async createOrder(body: IBody) {
     const accessToken = await this.generateAccessToken();
     try {
       const response = await axios({
@@ -88,7 +87,6 @@ export class PayPalService {
       const result = {
         item: body.refId,
         user: body.user,
-        type: body.type,
         orderId: response.data.id,
       };
 
@@ -97,7 +95,10 @@ export class PayPalService {
       const approvalUrl = response.data.links.find(
         (link) => link.rel === 'approve',
       ).href;
-      return approvalUrl;
+      return {
+        url: approvalUrl,
+        orderId: response.data.id,
+      };
     } catch (error) {
       console.log(error);
       throw new HttpException(

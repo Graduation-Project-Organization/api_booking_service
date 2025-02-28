@@ -62,13 +62,19 @@ export class Appointment {
 
   @Prop({
     type: String,
-    enum: ['Zoom', 'Google Meet', 'Microsoft Teams'],
+    enum: ['Google Meet'],
     default: 'Google Meet',
   })
   meeting_provider: string;
 
   @Prop({ type: Boolean, default: false })
   isDelete: boolean;
+
+  @Prop()
+  orderId: string;
+
+  @Prop()
+  interval: number;
 }
 
 export type AppointmentDocument = HydratedDocument<Appointment>;
