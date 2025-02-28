@@ -3,7 +3,7 @@ import { HydratedDocument } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Availability {
-  @Prop({ required: true })
+  @Prop({})
   doctorId: string;
 
   @Prop({})
@@ -28,10 +28,13 @@ export class Availability {
   saturday: string[];
 
   @Prop({ type: [String], default: [] })
-  sunday: string[];
+  sunday: string[]; // example ["7:00","18:00", "19:00","20:00"]
 
-  @Prop({ default: '30m' })
-  interval: string;
+  @Prop({ default: 30 })
+  interval: number; // default number on minutes
+
+  @Prop({ default: 0.5 })
+  session_price: number;
 
   @Prop({ type: Boolean, default: false })
   isDelete: boolean;
