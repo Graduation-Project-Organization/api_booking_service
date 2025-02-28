@@ -1,62 +1,71 @@
-import { IsString, IsNotEmpty, IsDate, IsEmail, IsArray, IsNumber, IsEnum, IsOptional } from "class-validator";
+import {
+  IsString,
+  IsNotEmpty,
+  IsDate,
+  IsEmail,
+  IsArray,
+  IsNumber,
+  IsEnum,
+  IsOptional,
+} from 'class-validator';
 
 export class CreateAppointmentDto {
-    @IsDate()
-    appointmentDate: Date;
+  @IsDate()
+  appointmentDate: Date;
 
-    @IsString()
-    @IsNotEmpty()
-    appointmentFormattedDate: string;
+  @IsString()
+  @IsNotEmpty()
+  appointmentFormattedDate: string;
 
-    @IsString()
-    @IsNotEmpty()
-    appointmentTime: string;
+  @IsString()
+  @IsNotEmpty()
+  appointmentTime: string;
 
-    @IsNumber()
-    charge: number;
+  @IsNumber()
+  charge: number;
 
-    @IsString()
-    @IsNotEmpty()
-    doctorId: string;
+  @IsString()
+  @IsNotEmpty()
+  doctorId: string;
 
-    // Patient Details
-    @IsString()
-    @IsNotEmpty()
-    patientId: string;
+  // Patient Details
+  @IsString()
+  @IsNotEmpty()
+  patientId: string;
 
-    @IsString()
-    first_name: string;
+  @IsString()
+  first_name: string;
 
-    @IsString()
-    last_name: string;
+  @IsString()
+  last_name: string;
 
-    @IsEmail()
-    mail: string;
+  @IsEmail()
+  mail: string;
 
-    @IsDate()
-    dob: Date;
+  @IsDate()
+  dob: Date;
 
-    @IsString()
-    location: string;
+  @IsString()
+  location: string;
 
-    @IsString()
-    appointment_reason: string;
+  @IsString()
+  appointment_reason: string;
 
-    @IsArray()
-    @IsOptional()
-    medical_documents?: string[];
+  @IsArray()
+  @IsOptional()
+  medical_documents?: string[];
 
-    @IsString()
-    occupation: string;
+  @IsString()
+  occupation: string;
 
-    @IsEnum(["pending", "confirmed", "completed", "cancelled"])
-    status: string;
+  @IsEnum(['pending', 'confirmed', 'completed', 'cancelled'])
+  status: string;
 
-    // Meeting
-    @IsOptional()
-    @IsString()
-    meeting_link?: string;
+  // Meeting
+  @IsOptional()
+  @IsString()
+  meeting_link?: string;
 
-    @IsEnum(["Zoom", "Google Meet", "Microsoft Teams"])
-    meeting_provider: string;
+  @IsEnum(['Zoom', 'Google Meet', 'Microsoft Teams'])
+  meeting_provider: string;
 }
