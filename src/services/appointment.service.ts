@@ -1,13 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateAppointmentDto } from 'src/dtos/createAppointment.dto';
 import { Appointment, AppointmentDocument } from 'src/models/appointment';
 import { Availability, AvailabilityDocument } from 'src/models/availability';
 import { PayPalService } from './paypal.service';
 import { GoogleMeetingService } from './google_meeting.service';
 import { ApiService } from 'src/core/api/api.service';
 import { AppointmentQueryDto } from 'src/dtos/appointment.query.dto';
+import { CreateAppointmentDto } from 'src/dtos/create_appointment.dto';
 @Injectable()
 export class ApointmentService {
   constructor(
@@ -42,6 +42,16 @@ export class ApointmentService {
       );
     }
     const appointmentDate = new Date(body.appointmentDate);
+    const doctorAppointment = await this.appointmentModel.findOne({
+      appointmentDate,
+      appointmentTime: body.appointmentTime,
+      doctorId: body.doctorId,
+    });
+    if (doctorAppointment) {
+      throw new NotFoundException(
+        'Doctor is already booked at the selected time.',
+      );
+    }
     const day = this.getDayFromDate(appointmentDate);
     if (!availability[day].includes(day)) {
       throw new NotFoundException(

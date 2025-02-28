@@ -1,48 +1,62 @@
 import {
-  IsString,
+  // IsString,
   IsArray,
   IsOptional,
-  isNotEmpty,
-  IsNotEmpty,
+  IsBoolean,
+  IsNumber,
+  ArrayUnique,
+  Min,
 } from 'class-validator';
 
 export class CreateAvailabilityDto {
-  @IsString()
-  @IsNotEmpty()
   doctorId: string;
 
-  @IsString()
-  @IsOptional()
-  profileId?: string;
   @IsArray()
+  @ArrayUnique()
   @IsOptional()
   monday?: string[];
 
   @IsArray()
+  @ArrayUnique()
   @IsOptional()
   tuesday?: string[];
 
   @IsArray()
+  @ArrayUnique()
   @IsOptional()
   wednesday?: string[];
 
   @IsArray()
+  @ArrayUnique()
   @IsOptional()
   thursday?: string[];
 
   @IsArray()
+  @ArrayUnique()
   @IsOptional()
   friday?: string[];
 
   @IsArray()
+  @ArrayUnique()
   @IsOptional()
   saturday?: string[];
 
   @IsArray()
+  @ArrayUnique()
   @IsOptional()
   sunday?: string[];
 
-  @IsString()
+  @IsNumber()
+  @Min(1)
   @IsOptional()
-  interval?: string;
+  interval?: number = 30;
+
+  @IsNumber()
+  @Min(0)
+  @IsOptional()
+  session_price?: number = 0.5;
+
+  @IsBoolean()
+  @IsOptional()
+  isDelete?: boolean = false;
 }
