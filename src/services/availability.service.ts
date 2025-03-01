@@ -7,7 +7,7 @@ import { CreateAvailabilityDto } from 'src/dtos/create_Availability.dto';
 import { UpdateAvailability } from 'src/dtos/update_Avalability';
 
 @Injectable()
-export class ApointmentService {
+export class AvailabilityService {
   constructor(
     @InjectModel(Appointment.name)
     private appointmentModel: Model<AppointmentDocument>,
@@ -31,11 +31,11 @@ export class ApointmentService {
       isDelete: false,
     });
     if (!availability) {
-      throw new NotFoundException('Doctor not found');
+      throw new NotFoundException('Doctor dont have aviablity');
     }
     availability.isDelete = true;
     await availability.save();
-    return availability;
+    return 'availability deleted successfully';
   }
   async updateAvailability(doctorId: string, body: UpdateAvailability) {
     const availability = await this.availabilityModel.findOne({
@@ -43,18 +43,22 @@ export class ApointmentService {
       isDelete: false,
     });
     if (!availability) {
-      throw new NotFoundException('Doctor not found');
+      throw new NotFoundException('Doctor dont have aviablity');
     }
-    await this.availabilityModel.findByIdAndUpdate(availability._id, body, {
+    const updatedAvaialability = await this.availabilityModel.findByIdAndUpdate(availability._id, body, {
       new: true,
     });
-    return availability;
+    return updatedAvaialability;
   }
   async getAvailability(doctorId: string) {
     const availability = await this.availabilityModel.findOne({
       doctorId,
       isDelete: false,
     });
+    console.log('availability', availability);
+    if (!availability) {
+      throw new NotFoundException('Doctor dont have aviablity');
+    }
     return availability;
   }
 }
