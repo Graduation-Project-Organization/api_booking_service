@@ -76,8 +76,8 @@ export class PayPalService {
             },
           ],
           application_context: {
-            return_url: `${process.env.BASE_URL}/paypal/success`,
-            cancel_url: `${process.env.BASE_URL}/paypal/cancel`,
+            return_url: `${process.env.PAYPAL_BASE_URL}/paypal/success`,
+            cancel_url: `${process.env.PAYPAL_BASE_URL}/paypal/cancel`,
             shipping_preference: 'NO_SHIPPING',
             user_action: 'PAY_NOW',
             brand_name: 'manfra.io',
