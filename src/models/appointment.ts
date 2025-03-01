@@ -45,7 +45,7 @@ export class Appointment {
   @Prop({ type: [String], default: [] })
   medical_documents: string[];
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   occupation: string;
 
   @Prop({

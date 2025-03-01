@@ -9,7 +9,7 @@ import { ApiService } from 'src/core/api/api.service';
 import { AppointmentQueryDto } from 'src/dtos/appointment.query.dto';
 import { CreateAppointmentDto } from 'src/dtos/create_appointment.dto';
 @Injectable()
-export class ApointmentService {
+export class AppointmentService {
   constructor(
     @InjectModel(Appointment.name)
     private appointmentModel: Model<AppointmentDocument>,
@@ -36,6 +36,7 @@ export class ApointmentService {
       doctorId: body.doctorId,
       isDelete: false,
     });
+    console.log('availabilityyy', availability);
     if (!availability) {
       throw new NotFoundException(
         'Doctor is not available at the selected time.',
@@ -53,7 +54,9 @@ export class ApointmentService {
       );
     }
     const day = this.getDayFromDate(appointmentDate);
-    if (!availability[day].includes(day)) {
+    console.log(day);
+    console.log(availability[day])
+    if (!availability[day].includes(body.appointmentTime)) {
       throw new NotFoundException(
         'Doctor is not available at the selected time.',
       );
@@ -87,7 +90,7 @@ export class ApointmentService {
       appointment.appointmentTime,
     );
     await availability.save();
-    return appointment;
+    return 'appointment cancelled successfully';
   }
   async createPayment(appointmentId: string) {
     const appointment = await this.appointmentModel.findById(appointmentId);
@@ -114,7 +117,9 @@ export class ApointmentService {
       return false;
     }
     appointment.status = 'confirmed';
-    await appointment.save();
+    const updatedAppointmet = await appointment.save();
+    return updatedAppointmet;
+
   }
   async addMeeting(appointmentId: string, doctorEmail: string) {
     const appointment = await this.appointmentModel.findById(appointmentId);
@@ -132,8 +137,8 @@ export class ApointmentService {
     );
     appointment.meeting_link = url;
     appointment.meeting_provider = 'Google Meet';
-    await appointment.save();
-    return appointment;
+    const updatedAppointmet = await appointment.save();
+    return updatedAppointmet;
   }
   async completePayment(id: string) {
     const appointment = await this.appointmentModel.findByIdAndUpdate(
@@ -147,14 +152,10 @@ export class ApointmentService {
     return appointment;
   }
   async getAppointments(queryStr: AppointmentQueryDto) {
-    // if(role == 'doctor'){
-    //   queryStr.doctorId = 'dpctprid';
-    // } else if(role == ''user){
-    //   queryStr.patientId;
-    // }
+    const Query = {...queryStr, status:{$ne:'cancelled'}}
     const { query, paginationObj } = await this.apiService.getAllDocs(
       this.appointmentModel.find(),
-      queryStr,
+      Query,
     );
     const data = await query;
     return {
