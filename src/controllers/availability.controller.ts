@@ -32,6 +32,7 @@ export class AvailabilityController {
     @Req() req: any,
   ) {
     try {
+      console.log('payyyy,', req.user);
       createAvailabilityDto.doctorId = req.user.userId;
       const response = await this.availabilityService.createAvailability(
         createAvailabilityDto,
