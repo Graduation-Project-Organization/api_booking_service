@@ -37,6 +37,7 @@
     "amqplib": "^0.10.4",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.5",
     "googleapis": "^146.0.0",
     "jsonwebtoken": "^9.0.2",

@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Appointment, AppointmentDocument } from '../models/appointment';
-import { Availability, AvailabilityDocument } from '../models/availability';
-import { CreateAvailabilityDto } from '../dtos/create_Availability.dto';
-import { UpdateAvailability } from '../dtos/update_Avalability';
+import { Appointment, AppointmentDocument } from 'src/models/appointment';
+import { Availability, AvailabilityDocument } from 'src/models/availability';
+import { CreateAvailabilityDto } from 'src/dtos/create_Availability.dto';
+import { UpdateAvailability } from 'src/dtos/update_Avalability';
 
 @Injectable()
 export class AvailabilityService {
@@ -15,6 +15,7 @@ export class AvailabilityService {
     private availabilityModel: Model<AvailabilityDocument>,
   ) {}
   async createAvailability(body: CreateAvailabilityDto) {
+    // body.session_price = 1;
     const availabilityExist = await this.availabilityModel.findOne({
       doctorId: body.doctorId,
       isDelete: false,
