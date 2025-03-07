@@ -18,7 +18,7 @@ export class CreateAppointmentDto {
   appointmentTime: string;
 
   @IsNumber()
-  @IsNotEmpty()
+  @IsOptional()
   charge: number;
 
   // Doctor details
