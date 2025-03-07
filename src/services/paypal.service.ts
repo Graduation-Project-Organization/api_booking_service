@@ -1,6 +1,5 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import axios from 'axios';
-
 interface IBody {
   price: number;
   refId: string;
@@ -76,8 +75,8 @@ export class PayPalService {
             },
           ],
           application_context: {
-            return_url: `${process.env.PAYPAL_BASE_URL}/paypal/success`,
-            cancel_url: `${process.env.PAYPAL_BASE_URL}/paypal/cancel`,
+            return_url: `${process.env.BASE_URL}/api/v1/appointment/success`,
+            cancel_url: `${process.env.BASE_URL}/api/v1/appointment/cancel`,
             shipping_preference: 'NO_SHIPPING',
             user_action: 'PAY_NOW',
             brand_name: 'manfra.io',
@@ -124,6 +123,8 @@ export class PayPalService {
         return { status: 'fail' };
       }
       const result = response.data.id;
+      console.log(result);
+      console.log(response.data.id);
       return result;
     } catch (error) {
       throw new HttpException(

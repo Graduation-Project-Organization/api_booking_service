@@ -1,32 +1,41 @@
-import { Controller, Get, Post, Put, Delete, Body, Req, UseGuards, Request, Param, Patch } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Body,
+  Req,
+  UseGuards,
+  Param,
+  Patch,
+} from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../core/jwt-auth-guard/jwt-auth.guard';
 import { AvailabilityService } from '../services/availability.service';
-import { CreateAvailabilityDto } from 'src/dtos/create_Availability.dto';
-import { UpdateAvailability } from 'src/dtos/update_Avalability';
-import { ResponseDto } from 'src/dtos/response.dto';
-import { RoleGuard } from 'src/core/role/role.guard';
-import { Role } from 'src/core/role/role.decorator';
-import { All_Role } from 'src/types/enum';
-
+import { CreateAvailabilityDto } from '../dtos/create_Availability.dto';
+import { UpdateAvailability } from '../dtos/update_Avalability';
+import { ResponseDto } from '../dtos/response.dto';
+import { RoleGuard } from '../core/role/role.guard';
+import { Role } from '../core/role/role.decorator';
+import { All_Role } from '../types/enum';
 
 @Controller('api/v1/availability')
 @ApiBearerAuth()
 export class AvailabilityController {
-  constructor(
-    private readonly availabilityService: AvailabilityService,
-  ) {}
+  constructor(private readonly availabilityService: AvailabilityService) {}
 
   @Post()
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role([All_Role.Doctor])
   async createAvailability(
     @Body() createAvailabilityDto: CreateAvailabilityDto,
-    @Req()req :any
+    @Req() req: any,
   ) {
     try {
       createAvailabilityDto.doctorId = req.user.userId;
-      const response =  await this.availabilityService.createAvailability(createAvailabilityDto);
+      const response = await this.availabilityService.createAvailability(
+        createAvailabilityDto,
+      );
       return ResponseDto.ok(response);
     } catch (err) {
       return ResponseDto.throwBadRequest(err.message, err);
@@ -35,11 +44,9 @@ export class AvailabilityController {
 
   @Get(':doctorId')
   @UseGuards(JwtAuthGuard)
-  async getAvailability(
-    @Param('doctorId') doctorId: string,
-  ) {
+  async getAvailability(@Param('doctorId') doctorId: string) {
     try {
-      const response =  await this.availabilityService.getAvailability(doctorId);
+      const response = await this.availabilityService.getAvailability(doctorId);
       return ResponseDto.ok(response);
     } catch (err) {
       return ResponseDto.throwBadRequest(err.message, err);
@@ -53,11 +60,14 @@ export class AvailabilityController {
     @Body() updateAvailabilityDto: UpdateAvailability,
     @Req() req: any,
   ) {
-    try{
+    try {
       const doctorId = req.user.userId;
-      const response = await this.availabilityService.updateAvailability(doctorId, updateAvailabilityDto);
+      const response = await this.availabilityService.updateAvailability(
+        doctorId,
+        updateAvailabilityDto,
+      );
       return ResponseDto.ok(response);
-    } catch(err) {
+    } catch (err) {
       return ResponseDto.throwBadRequest(err.message, err);
     }
   }
@@ -65,16 +75,14 @@ export class AvailabilityController {
   @Delete()
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role([All_Role.Doctor])
-  async deleteAvailability(
-    @Req() req: any,
-  ) {
-    try{
+  async deleteAvailability(@Req() req: any) {
+    try {
       const doctorId = req.user.userId;
-      const response = await this.availabilityService.deleteAvailability(doctorId);
+      const response =
+        await this.availabilityService.deleteAvailability(doctorId);
       return ResponseDto.ok(response);
-    } catch(err) {
+    } catch (err) {
       return ResponseDto.throwBadRequest(err.message, err);
     }
   }
-
 }

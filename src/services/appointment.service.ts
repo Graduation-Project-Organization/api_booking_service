@@ -1,13 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Appointment, AppointmentDocument } from 'src/models/appointment';
-import { Availability, AvailabilityDocument } from 'src/models/availability';
+import { Appointment, AppointmentDocument } from '../models/appointment';
+import { Availability, AvailabilityDocument } from '../models/availability';
 import { PayPalService } from './paypal.service';
-import { GoogleMeetingService } from './google_meeting.service';
-import { ApiService } from 'src/core/api/api.service';
-import { AppointmentQueryDto } from 'src/dtos/appointment.query.dto';
-import { CreateAppointmentDto } from 'src/dtos/create_appointment.dto';
+import { ApiService } from '../core/api/api.service';
+import { AppointmentQueryDto } from '../dtos/appointment.query.dto';
+import { CreateAppointmentDto } from '../dtos/create_appointment.dto';
 @Injectable()
 export class AppointmentService {
   constructor(
@@ -16,7 +15,6 @@ export class AppointmentService {
     @InjectModel(Availability.name)
     private availabilityModel: Model<AvailabilityDocument>,
     private paypalService: PayPalService,
-    private googleMeetingsService: GoogleMeetingService,
     private apiService: ApiService<AppointmentDocument, AppointmentQueryDto>,
   ) {}
   getDayFromDate(date: Date): string {
@@ -55,7 +53,7 @@ export class AppointmentService {
     }
     const day = this.getDayFromDate(appointmentDate);
     console.log(day);
-    console.log(availability[day])
+    console.log(availability[day]);
     if (!availability[day].includes(body.appointmentTime)) {
       throw new NotFoundException(
         'Doctor is not available at the selected time.',
@@ -110,6 +108,7 @@ export class AppointmentService {
   }
   async capturePayment(orderId: string) {
     const result = await this.paypalService.capturePayment(orderId);
+    console.log(result);
     const appointment = await this.appointmentModel.findOne({
       orderId: result,
     });
@@ -118,26 +117,7 @@ export class AppointmentService {
     }
     appointment.status = 'confirmed';
     const updatedAppointmet = await appointment.save();
-    return updatedAppointmet;
-
-  }
-  async addMeeting(appointmentId: string, doctorEmail: string) {
-    const appointment = await this.appointmentModel.findById(appointmentId);
-    if (!appointment) {
-      throw new NotFoundException('Appointment not found.');
-    }
-    const dateTimeString = `${appointment.appointmentDate}T${appointment.appointmentTime}:00.000Z`;
-    const dateTime = new Date(dateTimeString);
-    const url = await this.googleMeetingsService.scheduleMeeting(
-      `${appointment.first_name} ${appointment.last_name} appointment`,
-      appointment.appointment_reason,
-      dateTime,
-      new Date(dateTime.getTime() + appointment.interval * 60 * 1000),
-      [doctorEmail, appointment.mail],
-    );
-    appointment.meeting_link = url;
-    appointment.meeting_provider = 'Google Meet';
-    const updatedAppointmet = await appointment.save();
+    console.log(updatedAppointmet);
     return updatedAppointmet;
   }
   async completePayment(id: string) {
@@ -152,7 +132,7 @@ export class AppointmentService {
     return appointment;
   }
   async getAppointments(queryStr: AppointmentQueryDto) {
-    const Query = {...queryStr, status:{$ne:'cancelled'}}
+    const Query = { ...queryStr, status: { $ne: 'cancelled' } };
     const { query, paginationObj } = await this.apiService.getAllDocs(
       this.appointmentModel.find(),
       Query,

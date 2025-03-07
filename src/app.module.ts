@@ -16,20 +16,24 @@ import { Availability, AvailabilitySchema } from './models/availability';
 import { MongodbModule } from './config/mongodb.module';
 import { PayPalService } from './services/paypal.service';
 import { GoogleApis } from 'googleapis';
-import { GoogleMeetingService } from './services/google_meeting.service';
-import { SettingsService } from './services/setting.service';
-import { appendFile } from 'fs';
-import { GoogleMeetingController } from './controllers/google_meeting.controller';
 import { ApiService } from './core/api/api.service';
-import { Settings, SettingsSchema } from './models/setting';
-
+// @Get('success')
+//   async capturePayment(@Query() query: { token: string }) {
+//     const captureResponse = await this.paypalService.capturePayment(
+//       query.token,
+//     );
+//     return captureResponse;
+//   }
+//   @Get('cancel')
+//   async cancel() {
+//     return { status: 'order failed' };
+//   }
 @Module({
   imports: [
     MongodbModule,
     MongooseModule.forFeature([
-      {name: Appointment.name, schema: AppointmentSchema},
-      {name: Availability.name, schema: AvailabilitySchema},
-      {name: Settings.name, schema: SettingsSchema},
+      { name: Appointment.name, schema: AppointmentSchema },
+      { name: Availability.name, schema: AvailabilitySchema },
     ]),
     HttpModule,
     RabbitMqConfigModule,
@@ -37,20 +41,13 @@ import { Settings, SettingsSchema } from './models/setting';
       isGlobal: true,
     }),
   ],
-  controllers: [
-    AvailabilityController,
-    
-    AppointmentController,
-    GoogleMeetingController,
-  ],
+  controllers: [AvailabilityController, AppointmentController],
   providers: [
     PayPalService,
     GoogleApis,
-    GoogleMeetingService,
     AvailabilityService,
     AuthApiService,
     AppointmentService,
-    SettingsService,
     ApiService,
     JwtStrategy,
     { provide: APP_FILTER, useClass: CatchAppExceptionsFilter },
