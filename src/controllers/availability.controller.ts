@@ -52,10 +52,16 @@ export class AvailabilityController {
   @UseGuards(JwtAuthGuard)
   async getAvailability(
     @Param('doctorId') doctorId: string,
-    // @Query('timezone') timezone: string,
+    @Query('timezone') timezone: string,
   ) {
     try {
-      const response = await this.availabilityService.getAvailability(doctorId);
+      if (!timezone) {
+        timezone = 'Africa/Cairo';
+      }
+      const response = await this.availabilityService.getAvailability(
+        doctorId,
+        timezone,
+      );
       return ResponseDto.ok(response);
     } catch (err) {
       return ResponseDto.throwBadRequest(err.message, err);
@@ -68,7 +74,7 @@ export class AvailabilityController {
   async updateAvailability(
     @Body() updateAvailabilityDto: UpdateAvailability,
     @Req() req: any,
-    @Query('timzone') timezone: string,
+    @Query('timezone') timezone: string,
   ) {
     if (!timezone) {
       timezone = 'Africa/Cairo';
@@ -85,17 +91,4 @@ export class AvailabilityController {
       return ResponseDto.throwBadRequest(err.message, err);
     }
   }
-
-  // @Delete()
-  // @UseGuards(JwtAuthGuard, RoleGuard)
-  // @Role([All_Role.Doctor])
-  // async deleteAvailability(@Req() req: any) {
-  //   try {
-  //     const doctorId = req.user.userId;
-  //     const response = await this.availabilityService.getAvailability(doctorId);
-  //     return ResponseDto.ok(response);
-  //   } catch (err) {
-  //     return ResponseDto.throwBadRequest(err.message, err);
-  //   }
-  // }
 }

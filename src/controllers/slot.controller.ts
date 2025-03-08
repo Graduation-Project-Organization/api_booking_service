@@ -13,6 +13,9 @@ export class SlotController {
     @Query('year') year: number,
     @Query('timezone') timezone: string,
   ) {
+    if (!timezone) {
+      timezone = 'Africa/Cairo';
+    }
     return this.slotService.getAllAvailableSlots(
       doctorId,
       { day, month, year },

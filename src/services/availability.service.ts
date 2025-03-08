@@ -19,6 +19,14 @@ export class AvailabilityService {
     private eventEmitter: EventEmitter2,
     private slotService: SlotService,
   ) {}
+  getLocalTimeFromUtc(utcTime: string, timeZone: string): string {
+    // Convert UTC time to the given time zone
+    const localTime = DateTime.fromFormat(utcTime, 'HH:mm', {
+      zone: 'utc',
+    }).setZone(timeZone);
+    // Return local time in HH:mm format
+    return localTime.toFormat('HH:mm');
+  }
   formatAndSortTimeArray(times: string[]): string[] {
     return times
       .map((time) => {
@@ -42,10 +50,6 @@ export class AvailabilityService {
     // Return UTC time in ISO format and hour
     return utcTime.toFormat('HH:mm');
   }
-  // weekday: string,
-  //   doctorId: string,
-  //   workingHours: string[],
-  //   timezone: string,
   async createAvailability(body: CreateAvailabilityDto, timezone?: string) {
     // body.session_price = 1;
     const timesBody = { ...body };
@@ -114,7 +118,6 @@ export class AvailabilityService {
             timezone,
           );
           const appointment = await this.appointMentModel.find({
-            day,
             appointmentDate: {
               $gt: startOfDayUTC,
               $lt: endOfDayUTC,
@@ -159,7 +162,7 @@ export class AvailabilityService {
     }
     return updatedAvaialability;
   }
-  async getAvailability(doctorId: string) {
+  async getAvailability(doctorId: string, timezone: string) {
     const availability = await this.availabilityModel.findOne({
       doctorId,
       isDelete: false,
@@ -167,6 +170,21 @@ export class AvailabilityService {
     console.log('availability', availability);
     if (!availability) {
       throw new NotFoundException('Doctor dont have aviablity');
+    }
+    const days = [
+      'saturday',
+      'sunday',
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+    ];
+    for (let i = 0; i < days.length; i++) {
+      const day = days[i];
+      availability[day] = availability[day].map((value) => {
+        return this.getLocalTimeFromUtc(value, timezone);
+      });
     }
     return availability;
   }
