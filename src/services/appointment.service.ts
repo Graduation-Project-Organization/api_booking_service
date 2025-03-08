@@ -36,6 +36,7 @@ export class AppointmentService {
     const appointment = await this.appointmentModel.create(body);
     appointment.charge = availability.session_price;
     appointment.interval = availability.interval;
+    await available.deleteOne();
     await appointment.save();
     return appointment;
   }
