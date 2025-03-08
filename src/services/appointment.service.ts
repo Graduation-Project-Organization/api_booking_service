@@ -7,6 +7,8 @@ import { PayPalService } from './paypal.service';
 import { ApiService } from '../core/api/api.service';
 import { AppointmentQueryDto } from '../dtos/appointment.query.dto';
 import { CreateAppointmentDto } from '../dtos/create_appointment.dto';
+import { Working } from 'src/models/slot.entity';
+
 @Injectable()
 export class AppointmentService {
   constructor(
@@ -16,53 +18,21 @@ export class AppointmentService {
     private availabilityModel: Model<AvailabilityDocument>,
     private paypalService: PayPalService,
     private apiService: ApiService<AppointmentDocument, AppointmentQueryDto>,
+    @InjectModel(Working.name)
+    private workingModel: Model<Working>,
   ) {}
-  getDayFromDate(date: Date): string {
-    const daysOfWeek = [
-      'sunday',
-      'monday',
-      'tuesday',
-      'wednesday',
-      'thursday',
-      'friday',
-      'saturday',
-    ];
-    return daysOfWeek[date.getDay()];
-  }
   async createAppointment(body: CreateAppointmentDto) {
     const availability = await this.availabilityModel.findOne({
       doctorId: body.doctorId,
       isDelete: false,
     });
-    console.log('availabilityyy', availability);
-    if (!availability) {
-      throw new NotFoundException(
-        'Doctor is not available at the selected time.',
-      );
-    }
-    const appointmentDate = new Date(body.appointmentDate);
-    const doctorAppointment = await this.appointmentModel.findOne({
-      appointmentDate,
-      appointmentTime: body.appointmentTime,
+    const available = await this.workingModel.findOne({
+      from: body.appointmentDateTime,
       doctorId: body.doctorId,
     });
-    if (doctorAppointment) {
-      throw new NotFoundException(
-        'Doctor is already booked at the selected time.',
-      );
+    if (!available) {
+      throw new NotFoundException('Doctor is not available at this time.');
     }
-    const day = this.getDayFromDate(appointmentDate);
-    console.log(day);
-    console.log(availability[day]);
-    if (!availability[day].includes(body.appointmentTime)) {
-      throw new NotFoundException(
-        'Doctor is not available at the selected time.',
-      );
-    }
-    availability[day] = availability[day].filter(
-      (time) => time != body.appointmentTime,
-    );
-    await availability.save();
     const appointment = await this.appointmentModel.create(body);
     appointment.charge = availability.session_price;
     appointment.interval = availability.interval;
@@ -78,17 +48,10 @@ export class AppointmentService {
     if (!appointment) {
       throw new NotFoundException('Appointment not found.');
     }
-    const availability = await this.availabilityModel.findOne({
+    await this.workingModel.create({
+      from: appointment.appointmentDateTime,
       doctorId: appointment.doctorId,
-      isDelete: false,
     });
-    if (!availability) {
-      throw new NotFoundException('Doctor not found.');
-    }
-    availability[this.getDayFromDate(appointment.appointmentDate)].push(
-      appointment.appointmentTime,
-    );
-    await availability.save();
     return 'appointment cancelled successfully';
   }
   async createPayment(appointmentId: string) {

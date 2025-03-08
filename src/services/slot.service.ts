@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { DateTime } from 'luxon';
 import { Model } from 'mongoose';
 import { Working } from '../models/slot.entity';
+import { OnEvent } from '@nestjs/event-emitter';
 
 @Injectable()
 export class SlotService {
@@ -41,12 +42,7 @@ export class SlotService {
     return result;
   }
 
-  async getNextFourWeeksDatesForDay(
-    weekday: string,
-    doctorId: string,
-    workingHours: string[],
-    timezone: string,
-  ) {
+  getDatesArray(weekday: string) {
     const today = new Date();
     const todayDayOfWeek = today.getDay();
     const daysOfWeek = [
@@ -75,6 +71,16 @@ export class SlotService {
         month: nextDate.getUTCMonth() + 1,
       });
     }
+    return resultDates;
+  }
+
+  async getNextFourWeeksDatesForDay(
+    weekday: string,
+    doctorId: string,
+    workingHours: string[],
+    timezone: string,
+  ) {
+    const resultDates = this.getDatesArray(weekday);
     for (const { day, year, month } of resultDates) {
       await this.createSlot(
         { day, year, month, workingHours, doctorId },
@@ -84,13 +90,29 @@ export class SlotService {
     }
   }
 
-  getLocalHour(utcTime: string, timeZone: string): string {
+  getLocalHour(utcTime: string, timezone: string): string {
     // Convert UTC time to local time
     const localTime = DateTime.fromISO(utcTime, { zone: 'utc' }).setZone(
-      timeZone,
+      timezone,
     );
     // Return the hour in HH:mm format
     return localTime.toFormat('HH:mm');
+  }
+  //   this.eventEmitter.emit('add:slots', {
+  //     weekday: day,
+  //     workingHours: availability[day],
+  //     doctorId: body.doctorId,
+  //     timezone,
+  //   });
+
+  @OnEvent('add:slots')
+  async assSlots({ weekday, workingHours, doctorId, timezone }) {
+    await this.getNextFourWeeksDatesForDay(
+      weekday,
+      doctorId,
+      workingHours,
+      timezone,
+    );
   }
 
   getLocalTime(day: number, month: number, year: number, timezone: string) {
@@ -135,6 +157,7 @@ export class SlotService {
   }
   getDayFromDate(year: number, month: number, day: number) {
     const date = new Date(year, month - 1, day);
+    date.setUTCHours(0, 0, 0, 0);
     const daysOfWeek = [
       'sunday',
       'monday',

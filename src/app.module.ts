@@ -17,6 +17,10 @@ import { MongodbModule } from './config/mongodb.module';
 import { PayPalService } from './services/paypal.service';
 import { GoogleApis } from 'googleapis';
 import { ApiService } from './core/api/api.service';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { Working, WorkingSchema } from './models/slot.entity';
+import { SlotService } from './services/slot.service';
+import { SlotController } from './controllers/slot.controller';
 // @Get('success')
 //   async capturePayment(@Query() query: { token: string }) {
 //     const captureResponse = await this.paypalService.capturePayment(
@@ -34,14 +38,16 @@ import { ApiService } from './core/api/api.service';
     MongooseModule.forFeature([
       { name: Appointment.name, schema: AppointmentSchema },
       { name: Availability.name, schema: AvailabilitySchema },
+      { name: Working.name, schema: WorkingSchema },
     ]),
     HttpModule,
     RabbitMqConfigModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    EventEmitterModule.forRoot({ global: true }),
   ],
-  controllers: [AvailabilityController, AppointmentController],
+  controllers: [AvailabilityController, AppointmentController, SlotController],
   providers: [
     PayPalService,
     GoogleApis,
@@ -50,6 +56,7 @@ import { ApiService } from './core/api/api.service';
     AppointmentService,
     ApiService,
     JwtStrategy,
+    SlotService,
     { provide: APP_FILTER, useClass: CatchAppExceptionsFilter },
   ],
 })

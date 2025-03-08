@@ -2,12 +2,12 @@ import {
   Controller,
   Get,
   Post,
-  Delete,
   Body,
   Req,
   UseGuards,
   Param,
   Patch,
+  Query,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../core/jwt-auth-guard/jwt-auth.guard';
@@ -30,12 +30,17 @@ export class AvailabilityController {
   async createAvailability(
     @Body() createAvailabilityDto: CreateAvailabilityDto,
     @Req() req: any,
+    @Query('timezone') timezone: string,
   ) {
+    if (!timezone) {
+      timezone = 'Africa/Cairo';
+    }
     try {
       console.log('payyyy,', req.user);
       createAvailabilityDto.doctorId = req.user.userId;
       const response = await this.availabilityService.createAvailability(
         createAvailabilityDto,
+        timezone,
       );
       return ResponseDto.ok(response);
     } catch (err) {
@@ -45,7 +50,10 @@ export class AvailabilityController {
 
   @Get(':doctorId')
   @UseGuards(JwtAuthGuard)
-  async getAvailability(@Param('doctorId') doctorId: string) {
+  async getAvailability(
+    @Param('doctorId') doctorId: string,
+    // @Query('timezone') timezone: string,
+  ) {
     try {
       const response = await this.availabilityService.getAvailability(doctorId);
       return ResponseDto.ok(response);
@@ -60,12 +68,17 @@ export class AvailabilityController {
   async updateAvailability(
     @Body() updateAvailabilityDto: UpdateAvailability,
     @Req() req: any,
+    @Query('timzone') timezone: string,
   ) {
+    if (!timezone) {
+      timezone = 'Africa/Cairo';
+    }
     try {
       const doctorId = req.user.userId;
       const response = await this.availabilityService.updateAvailability(
         doctorId,
         updateAvailabilityDto,
+        timezone,
       );
       return ResponseDto.ok(response);
     } catch (err) {
@@ -73,17 +86,16 @@ export class AvailabilityController {
     }
   }
 
-  @Delete()
-  @UseGuards(JwtAuthGuard, RoleGuard)
-  @Role([All_Role.Doctor])
-  async deleteAvailability(@Req() req: any) {
-    try {
-      const doctorId = req.user.userId;
-      const response =
-        await this.availabilityService.deleteAvailability(doctorId);
-      return ResponseDto.ok(response);
-    } catch (err) {
-      return ResponseDto.throwBadRequest(err.message, err);
-    }
-  }
+  // @Delete()
+  // @UseGuards(JwtAuthGuard, RoleGuard)
+  // @Role([All_Role.Doctor])
+  // async deleteAvailability(@Req() req: any) {
+  //   try {
+  //     const doctorId = req.user.userId;
+  //     const response = await this.availabilityService.getAvailability(doctorId);
+  //     return ResponseDto.ok(response);
+  //   } catch (err) {
+  //     return ResponseDto.throwBadRequest(err.message, err);
+  //   }
+  // }
 }

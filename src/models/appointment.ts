@@ -5,10 +5,13 @@ import { HydratedDocument } from 'mongoose';
 export class Appointment {
   // Appointment details
   @Prop({ type: Date, required: true })
-  appointmentDate: Date;
+  appointmentDateTime: Date;
 
   @Prop({ type: String, required: true })
   appointmentFormattedDate: string;
+
+  @Prop({ type: String })
+  day: string;
 
   @Prop({ type: String, required: true })
   appointmentTime: string;
@@ -63,7 +66,6 @@ export class Appointment {
   @Prop({
     type: String,
     enum: ['Google Meet'],
-    default: 'Google Meet',
   })
   meeting_provider: string;
 
