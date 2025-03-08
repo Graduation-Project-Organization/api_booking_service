@@ -129,7 +129,7 @@ export class AvailabilityService {
           });
           if (appointment && appointment.length > 0) {
             throw new NotFoundException(
-              `can not change appointments of ${appointment[0].first_name} please cancel it`,
+              `can not change appointments of ${appointment[0]._id} please cancel it`,
             );
           }
         }
