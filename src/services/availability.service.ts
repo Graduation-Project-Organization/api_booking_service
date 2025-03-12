@@ -188,4 +188,12 @@ export class AvailabilityService {
     }
     return availability;
   }
+  async deleteAvailability(docId){
+    const av = await this.availabilityModel.findOne({doctorId:docId});
+    if(!av){
+      throw new NotFoundException('availability not found')
+    }
+    await this.availabilityModel.findByIdAndDelete(av._id);
+    return 'availability deleted'
+  }
 }

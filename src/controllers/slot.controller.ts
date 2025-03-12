@@ -1,16 +1,16 @@
-import { Controller, Get, Query, Param } from '@nestjs/common';
+import { Controller, Get, Query, Param, ParseIntPipe } from '@nestjs/common';
 import { SlotService } from '../services/slot.service';
 
-@Controller('slots')
+@Controller('api/v1/slots')
 export class SlotController {
   constructor(private readonly slotService: SlotService) {}
 
   @Get('available/:doctorId')
   async getAllAvailableSlots(
     @Param('doctorId') doctorId: string,
-    @Query('day') day: number,
-    @Query('month') month: number,
-    @Query('year') year: number,
+    @Query('day', new ParseIntPipe()) day: number,
+    @Query('month', new ParseIntPipe()) month: number,
+    @Query('year', new ParseIntPipe()) year: number,
     @Query('timezone') timezone: string,
   ) {
     if (!timezone) {
