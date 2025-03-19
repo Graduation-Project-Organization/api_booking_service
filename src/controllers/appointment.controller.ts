@@ -16,11 +16,14 @@ import { ResponseDto } from '../dtos/response.dto';
 import { AppointmentService } from '../services/appointment.service';
 import { CreateAppointmentDto } from '../dtos/create_appointment.dto';
 import { AppointmentQueryDto } from '../dtos/appointment.query.dto';
+import { ZoomService } from 'src/services/zoom.service';
 
 @Controller('api/v1/appointment')
 @ApiBearerAuth()
 export class AppointmentController {
-  constructor(private readonly appointmentService: AppointmentService) {}
+  constructor(
+    private readonly appointmentService: AppointmentService 
+  ) {}
 
   @Post()
   @UseGuards(JwtAuthGuard)
@@ -87,6 +90,18 @@ export class AppointmentController {
   @Get('cancel')
   async cancel() {
     return { status: 'order failed' };
+  }
+
+  @Post('create-zoom-meating/:appointmentId')
+  @UseGuards(JwtAuthGuard)
+  async createZoomMeeting(@Param('appointmentId') appointmentId: string) {
+    try {
+      const response =
+        await this.appointmentService.addZoomMeating(appointmentId)
+      return ResponseDto.ok(response);
+    } catch (err) {
+      return ResponseDto.throwBadRequest(err.message, err);
+    }
   }
   @Patch('complete-payment/:appointmentId')
   @UseGuards(JwtAuthGuard)

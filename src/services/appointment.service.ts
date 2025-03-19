@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Appointment, AppointmentDocument } from '../models/appointment';
@@ -8,6 +8,7 @@ import { ApiService } from '../core/api/api.service';
 import { AppointmentQueryDto } from '../dtos/appointment.query.dto';
 import { CreateAppointmentDto } from '../dtos/create_appointment.dto';
 import { Working } from 'src/models/slot.entity';
+import { ZoomService } from './zoom.service';
 
 @Injectable()
 export class AppointmentService {
@@ -20,6 +21,7 @@ export class AppointmentService {
     private apiService: ApiService<AppointmentDocument, AppointmentQueryDto>,
     @InjectModel(Working.name)
     private workingModel: Model<Working>,
+    private zoomService: ZoomService,
   ) {}
   async createAppointment(body: CreateAppointmentDto) {
     const availability = await this.availabilityModel.findOne({
@@ -107,5 +109,27 @@ export class AppointmentService {
       data,
       paginationObj,
     };
+  }
+
+  async addZoomMeating(appointmentId){
+    const appointment = await this.appointmentModel.findById(appointmentId);
+    if(!appointment) {
+      throw new NotFoundException(`Appointment not found`)
+    }
+    if (appointment.start_url && appointment.join_url) {
+      throw new NotFoundException(`Meeting already created`)
+    }
+    if (appointment.status != 'completed'){
+      throw new BadRequestException(`User should pay before add meating`)
+    }
+    const availability = await this.availabilityModel.findOne({
+      doctorId: appointment.doctorId
+    })
+    const meatingDetails = await this.zoomService.createMeeting('meating topic', availability.interval,  appointment.appointmentFormattedDate);
+    appointment.start_url = meatingDetails.start_url;
+    appointment.join_url = meatingDetails.join_url;
+    await appointment.save();
+    return appointment;
+
   }
 }

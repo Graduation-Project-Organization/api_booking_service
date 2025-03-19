@@ -63,9 +63,16 @@ export class Appointment {
   @Prop({ type: String })
   meeting_link: string;
 
+  @Prop({ type: String })
+  start_url: string;
+  
+  @Prop({ type: String })
+  join_url: string;
+
   @Prop({
     type: String,
-    enum: ['Google Meet'],
+    enum: ['Google Meet', 'Zoom', 'Microsoft Teams'],
+    default: 'Zoom',
   })
   meeting_provider: string;
 

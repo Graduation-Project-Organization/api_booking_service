@@ -21,6 +21,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { Working, WorkingSchema } from './models/slot.entity';
 import { SlotService } from './services/slot.service';
 import { SlotController } from './controllers/slot.controller';
+import { ZoomService } from './services/zoom.service';
 // @Get('success')
 //   async capturePayment(@Query() query: { token: string }) {
 //     const captureResponse = await this.paypalService.capturePayment(
@@ -51,6 +52,7 @@ import { SlotController } from './controllers/slot.controller';
   providers: [
     PayPalService,
     GoogleApis,
+    ZoomService,
     AvailabilityService,
     AuthApiService,
     AppointmentService,
