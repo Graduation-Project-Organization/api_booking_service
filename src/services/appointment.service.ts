@@ -123,7 +123,7 @@ export class AppointmentService {
     if (appointment.start_url && appointment.join_url) {
       throw new NotFoundException(`Meeting already created`);
     }
-    if (appointment.status != 'completed') {
+    if (appointment.status != 'confirmed') {
       throw new BadRequestException(`User should pay before add meating`);
     }
     const availability = await this.availabilityModel.findOne({

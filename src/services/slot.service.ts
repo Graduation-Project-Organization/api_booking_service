@@ -108,7 +108,7 @@ export class SlotService {
   //   });
 
   @OnEvent('add:slots')
-  async assSlots({ weekday, workingHours, doctorId, timezone }) {
+  async addSlots({ weekday, workingHours, doctorId, timezone }) {
     await this.getNextFourWeeksDatesForDay(
       weekday,
       doctorId,
@@ -139,6 +139,8 @@ export class SlotService {
     return { startOfDayUTC, endOfDayUTC };
   }
 
+
+
   async createWorkingHoursCalender(
     workingHours: string[],
     day: number,
@@ -148,21 +150,25 @@ export class SlotService {
     timezone: string,
   ) {
     workingHours = this.convertToUtc(day, month, year, workingHours, timezone);
+    console.log(workingHours);
     for (let i = 0; i < workingHours.length; i += 1) {
       const appointment = await this.appointmentModel.findOne({
-        appointmentDate: workingHours[i],
+        appointmentDateTime: workingHours[i],
         status: {
           $in: ['pending', 'confirmed'],
         },
         doctorId,
       });
+      console.log(appointment);
       if (appointment) {
         continue; // Skip creating slots for existing appointments
       }
-      await this.workingModel.create({
+      const slot = await this.workingModel.create({
         from: workingHours[i],
         doctorId,
       });
+
+      console.log('slots created', slot);
     }
   }
   getDayFromDate(year: number, month: number, day: number) {
@@ -197,6 +203,8 @@ export class SlotService {
       timezone,
     );
 
+    console.log('dpctor id is', body.doctorId);
+
     await this.workingModel.deleteMany({
       from: { $gte: startOfDayUTC, $lte: endOfDayUTC },
     });
@@ -216,6 +224,7 @@ export class SlotService {
     { day, month, year }: { day: number; month: number; year: number },
     timezone: string,
   ) {
+    console.log(doctorId);
     const { startOfDayUTC, endOfDayUTC } = this.getLocalTime(
       day,
       month,

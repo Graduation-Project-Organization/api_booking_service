@@ -121,7 +121,7 @@ export class AvailabilityService {
         this.eventEmitter.emit('add:slots', {
           weekday: day,
           workingHours: timesBody[day],
-          doctorId: body.doctorId,
+          doctorId: doctorId,
           timezone,
         });
       }
