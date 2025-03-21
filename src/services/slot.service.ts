@@ -226,7 +226,7 @@ export class SlotService {
     const slots = await this.workingModel.find({
       from: {
         $gte: startOfDayUTC,
-        endOfDayUTC: endOfDayUTC,
+        $lte: endOfDayUTC,
       },
       doctorId,
     });

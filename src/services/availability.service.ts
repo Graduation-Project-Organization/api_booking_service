@@ -5,19 +5,14 @@ import { Availability, AvailabilityDocument } from 'src/models/availability';
 import { CreateAvailabilityDto } from 'src/dtos/create_Availability.dto';
 import { UpdateAvailability } from 'src/dtos/update_Avalability';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { Appointment, AppointmentDocument } from 'src/models/appointment';
 import { DateTime } from 'luxon';
-import { SlotService } from './slot.service';
 
 @Injectable()
 export class AvailabilityService {
   constructor(
     @InjectModel(Availability.name)
     private availabilityModel: Model<AvailabilityDocument>,
-    @InjectModel(Appointment.name)
-    private appointMentModel: Model<AppointmentDocument>,
     private eventEmitter: EventEmitter2,
-    private slotService: SlotService,
   ) {}
   getLocalTimeFromUtc(utcTime: string, timeZone: string): string {
     // Convert UTC time to the given time zone
@@ -80,7 +75,7 @@ export class AvailabilityService {
     const availability = await this.availabilityModel.create(body);
     for (let i = 0; i < days.length; i++) {
       const day = days[i];
-      if (timesBody[day]) {
+      if (timesBody[day] && timesBody[day]?.length > 0) {
         this.eventEmitter.emit('add:slots', {
           weekday: day,
           workingHours: timesBody[day],
@@ -106,35 +101,6 @@ export class AvailabilityService {
       'thursday',
       'friday',
     ];
-    // for (let i = 0; i < days.length; i++) {
-    //   const day = days[i];
-    //   if (body[day]) {
-    //     const resultDates = this.slotService.getDatesArray(day);
-    //     for (let j = 0; j < resultDates.length; j++) {
-    //       const { startOfDayUTC, endOfDayUTC } = this.slotService.getLocalTime(
-    //         resultDates[i].day,
-    //         resultDates[i].month,
-    //         resultDates[i].year,
-    //         timezone,
-    //       );
-    //       const appointment = await this.appointMentModel.find({
-    //         appointmentDate: {
-    //           $gt: startOfDayUTC,
-    //           $lt: endOfDayUTC,
-    //         },
-    //         status: {
-    //           $ne: 'cancelled',
-    //         },
-    //         doctorId,
-    //       });
-    //       if (appointment && appointment.length > 0) {
-    //         throw new NotFoundException(
-    //           `can not change appointments of ${appointment[0]._id} please cancel it`,
-    //         );
-    //       }
-    //     }
-    //   }
-    // }
     const availability = await this.availabilityModel.findOne({
       doctorId,
       isDelete: false,
