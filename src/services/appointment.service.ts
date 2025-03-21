@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Appointment, AppointmentDocument } from '../models/appointment';
@@ -111,25 +115,28 @@ export class AppointmentService {
     };
   }
 
-  async addZoomMeating(appointmentId){
+  async addZoomMeating(appointmentId) {
     const appointment = await this.appointmentModel.findById(appointmentId);
-    if(!appointment) {
-      throw new NotFoundException(`Appointment not found`)
+    if (!appointment) {
+      throw new NotFoundException(`Appointment not found`);
     }
     if (appointment.start_url && appointment.join_url) {
-      throw new NotFoundException(`Meeting already created`)
+      throw new NotFoundException(`Meeting already created`);
     }
-    if (appointment.status != 'completed'){
-      throw new BadRequestException(`User should pay before add meating`)
+    if (appointment.status != 'completed') {
+      throw new BadRequestException(`User should pay before add meating`);
     }
     const availability = await this.availabilityModel.findOne({
-      doctorId: appointment.doctorId
-    })
-    const meatingDetails = await this.zoomService.createMeeting('meating topic', availability.interval,  appointment.appointmentFormattedDate);
+      doctorId: appointment.doctorId,
+    });
+    const meatingDetails = await this.zoomService.createMeeting(
+      'meating topic',
+      availability.interval,
+      appointment.appointmentFormattedDate,
+    );
     appointment.start_url = meatingDetails.start_url;
     appointment.join_url = meatingDetails.join_url;
     await appointment.save();
     return appointment;
-
   }
 }

@@ -106,35 +106,35 @@ export class AvailabilityService {
       'thursday',
       'friday',
     ];
-    for (let i = 0; i < days.length; i++) {
-      const day = days[i];
-      if (body[day]) {
-        const resultDates = this.slotService.getDatesArray(day);
-        for (let j = 0; j < resultDates.length; j++) {
-          const { startOfDayUTC, endOfDayUTC } = this.slotService.getLocalTime(
-            resultDates[i].day,
-            resultDates[i].month,
-            resultDates[i].year,
-            timezone,
-          );
-          const appointment = await this.appointMentModel.find({
-            appointmentDate: {
-              $gt: startOfDayUTC,
-              $lt: endOfDayUTC,
-            },
-            status: {
-              $ne: 'cancelled',
-            },
-            doctorId,
-          });
-          if (appointment && appointment.length > 0) {
-            throw new NotFoundException(
-              `can not change appointments of ${appointment[0]._id} please cancel it`,
-            );
-          }
-        }
-      }
-    }
+    // for (let i = 0; i < days.length; i++) {
+    //   const day = days[i];
+    //   if (body[day]) {
+    //     const resultDates = this.slotService.getDatesArray(day);
+    //     for (let j = 0; j < resultDates.length; j++) {
+    //       const { startOfDayUTC, endOfDayUTC } = this.slotService.getLocalTime(
+    //         resultDates[i].day,
+    //         resultDates[i].month,
+    //         resultDates[i].year,
+    //         timezone,
+    //       );
+    //       const appointment = await this.appointMentModel.find({
+    //         appointmentDate: {
+    //           $gt: startOfDayUTC,
+    //           $lt: endOfDayUTC,
+    //         },
+    //         status: {
+    //           $ne: 'cancelled',
+    //         },
+    //         doctorId,
+    //       });
+    //       if (appointment && appointment.length > 0) {
+    //         throw new NotFoundException(
+    //           `can not change appointments of ${appointment[0]._id} please cancel it`,
+    //         );
+    //       }
+    //     }
+    //   }
+    // }
     const availability = await this.availabilityModel.findOne({
       doctorId,
       isDelete: false,
@@ -151,7 +151,7 @@ export class AvailabilityService {
     );
     for (let i = 0; i < days.length; i++) {
       const day = days[i];
-      if (timesBody[day]) {
+      if (timesBody[day] && timesBody[day]?.length > 0) {
         this.eventEmitter.emit('add:slots', {
           weekday: day,
           workingHours: timesBody[day],
@@ -188,12 +188,12 @@ export class AvailabilityService {
     }
     return availability;
   }
-  async deleteAvailability(docId){
-    const av = await this.availabilityModel.findOne({doctorId:docId});
-    if(!av){
-      throw new NotFoundException('availability not found')
+  async deleteAvailability(docId) {
+    const av = await this.availabilityModel.findOne({ doctorId: docId });
+    if (!av) {
+      throw new NotFoundException('availability not found');
     }
     await this.availabilityModel.findByIdAndDelete(av._id);
-    return 'availability deleted'
+    return 'availability deleted';
   }
 }

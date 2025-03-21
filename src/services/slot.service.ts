@@ -1,14 +1,16 @@
-import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { DateTime } from 'luxon';
 import { Model } from 'mongoose';
 import { Working } from '../models/slot.entity';
 import { OnEvent } from '@nestjs/event-emitter';
+import { Appointment } from 'src/models/appointment';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class SlotService {
   constructor(
     @InjectModel(Working.name) private workingModel: Model<Working>,
+    @InjectModel(Appointment.name) private appointmentModel: Model<Appointment>,
   ) {}
 
   convertToUtc(
@@ -146,9 +148,17 @@ export class SlotService {
     timezone: string,
   ) {
     workingHours = this.convertToUtc(day, month, year, workingHours, timezone);
-
-    console.log(workingHours);
     for (let i = 0; i < workingHours.length; i += 1) {
+      const appointment = await this.appointmentModel.findOne({
+        appointmentDate: workingHours[i],
+        status: {
+          $in: ['pending', 'confirmed'],
+        },
+        doctorId,
+      });
+      if (appointment) {
+        continue; // Skip creating slots for existing appointments
+      }
       await this.workingModel.create({
         from: workingHours[i],
         doctorId,

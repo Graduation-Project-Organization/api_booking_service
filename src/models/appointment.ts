@@ -65,7 +65,7 @@ export class Appointment {
 
   @Prop({ type: String })
   start_url: string;
-  
+
   @Prop({ type: String })
   join_url: string;
 

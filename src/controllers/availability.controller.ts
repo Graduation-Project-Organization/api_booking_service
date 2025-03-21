@@ -96,19 +96,14 @@ export class AvailabilityController {
   @Delete()
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role([All_Role.Doctor])
-  async deleteAvaialability(
-    @Req() req: any,
-  ) {
+  async deleteAvaialability(@Req() req: any) {
     try {
       const doctorId = req.user.userId;
-      const response = await this.availabilityService.deleteAvailability(doctorId);
+      const response =
+        await this.availabilityService.deleteAvailability(doctorId);
       return ResponseDto.ok(response);
     } catch (err) {
       return ResponseDto.throwBadRequest(err.message, err);
     }
   }
-
-
-  
-
 }

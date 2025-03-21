@@ -48,11 +48,11 @@ export class CreateAppointmentDto {
   @IsString()
   @IsOptional()
   appointment_reason: string;
-  
+
   @IsString()
   @IsOptional()
   start_url: string;
-  
+
   @IsString()
   @IsOptional()
   join_url: string;
