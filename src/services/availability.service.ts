@@ -81,6 +81,7 @@ export class AvailabilityService {
           workingHours: timesBody[day],
           doctorId: body.doctorId,
           timezone,
+          interval: availability.interval,
         });
       }
     }
@@ -123,6 +124,7 @@ export class AvailabilityService {
           workingHours: timesBody[day],
           doctorId: doctorId,
           timezone,
+          interval: updatedAvaialability.interval,
         });
       }
     }

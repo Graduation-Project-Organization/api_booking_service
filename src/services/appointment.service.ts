@@ -43,6 +43,10 @@ export class AppointmentService {
     appointment.charge = availability.session_price;
     appointment.interval = availability.interval;
     await available.deleteOne();
+    appointment.appointmentEndTime = new Date(
+      new Date(appointment.appointmentDateTime).getTime() +
+        appointment.interval * 60 * 1000,
+    );
     await appointment.save();
     return appointment;
   }

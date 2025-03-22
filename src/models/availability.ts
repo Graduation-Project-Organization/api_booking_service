@@ -30,7 +30,7 @@ export class Availability {
   @Prop({ type: [String], default: [] })
   sunday: string[]; // example ["7:00","18:00", "19:00","20:00"]
 
-  @Prop({ default: 30 })
+  @Prop({ default: 60 })
   interval: number; // default number on minutes
 
   @Prop({ default: 0.5 })

@@ -80,12 +80,13 @@ export class SlotService {
     weekday: string,
     doctorId: string,
     workingHours: string[],
+    interval: number,
     timezone: string,
   ) {
     const resultDates = this.getDatesArray(weekday);
     for (const { day, year, month } of resultDates) {
       await this.createSlot(
-        { day, year, month, workingHours, doctorId },
+        { day, year, month, workingHours, doctorId, interval },
         timezone,
       );
       console.log('this is day an d', day, year, month);
@@ -108,11 +109,12 @@ export class SlotService {
   //   });
 
   @OnEvent('add:slots')
-  async addSlots({ weekday, workingHours, doctorId, timezone }) {
+  async addSlots({ weekday, workingHours, doctorId, timezone, interval }) {
     await this.getNextFourWeeksDatesForDay(
       weekday,
       doctorId,
       workingHours,
+      interval,
       timezone,
     );
   }
@@ -139,25 +141,31 @@ export class SlotService {
     return { startOfDayUTC, endOfDayUTC };
   }
 
-
-
   async createWorkingHoursCalender(
     workingHours: string[],
     day: number,
     month: number,
     year: number,
     doctorId: string,
+    interval: number,
     timezone: string,
   ) {
     workingHours = this.convertToUtc(day, month, year, workingHours, timezone);
     console.log(workingHours);
     for (let i = 0; i < workingHours.length; i += 1) {
+      const fromTime = new Date(workingHours[i]);
+      const toTime = new Date(
+        new Date(workingHours[i + 1]).getTime() + interval * 60 * 1000,
+      );
       const appointment = await this.appointmentModel.findOne({
-        appointmentDateTime: workingHours[i],
-        status: {
-          $in: ['pending', 'confirmed'],
-        },
         doctorId,
+        status: { $in: ['pending', 'confirmed'] },
+        $or: [
+          {
+            appointmentDateTime: { $lt: toTime }, // Starts before the new appointment ends
+            appointmentEndTime: { $gt: fromTime }, // Ends after the new appointment starts
+          },
+        ],
       });
       console.log(appointment);
       if (appointment) {
@@ -193,6 +201,7 @@ export class SlotService {
       month: number;
       workingHours: string[];
       doctorId: string;
+      interval: number;
     },
     timezone: string,
   ) {
@@ -215,6 +224,7 @@ export class SlotService {
       body.month,
       body.year,
       body.doctorId,
+      body.interval,
       timezone,
     );
   }
