@@ -11,7 +11,7 @@ import { PayPalService } from './paypal.service';
 import { ApiService } from '../core/api/api.service';
 import { AppointmentQueryDto } from '../dtos/appointment.query.dto';
 import { CreateAppointmentDto } from '../dtos/create_appointment.dto';
-import { Working } from 'src/models/slot.entity';
+import { Working } from '../models/slot.entity';
 import { ZoomService } from './zoom.service';
 
 @Injectable()

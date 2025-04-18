@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Availability, AvailabilityDocument } from 'src/models/availability';
-import { CreateAvailabilityDto } from 'src/dtos/create_Availability.dto';
-import { UpdateAvailability } from 'src/dtos/update_Avalability';
+import { Availability, AvailabilityDocument } from '../models/availability';
+import { CreateAvailabilityDto } from '../dtos/create_Availability.dto';
+import { UpdateAvailability } from '../dtos/update_Avalability';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { DateTime } from 'luxon';
 

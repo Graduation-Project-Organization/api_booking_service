@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import { Model } from 'mongoose';
 import { Working } from '../models/slot.entity';
 import { OnEvent } from '@nestjs/event-emitter';
-import { Appointment } from 'src/models/appointment';
+import { Appointment } from '../models/appointment';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
