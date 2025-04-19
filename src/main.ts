@@ -5,7 +5,7 @@ config();
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerConfig } from './config/swagger';
-import { RabbitMqConfigModule } from './config/rabbitmq-config.module';
+// import { RabbitMqConfigModule } from './config/rabbitmq-config.module';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 
@@ -21,7 +21,7 @@ async function bootstrap() {
     }),
   );
   app.use(cookieParser());
-  await RabbitMqConfigModule.setup(app);
+  // await RabbitMqConfigModule.setup(app);
   await app.listen(process.env.PORT || 3000);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
