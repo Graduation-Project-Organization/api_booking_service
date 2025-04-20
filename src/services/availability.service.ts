@@ -131,13 +131,15 @@ export class AvailabilityService {
     return updatedAvaialability;
   }
   async getAvailability(doctorId: string, timezone: string) {
-    const availability = await this.availabilityModel.findOne({
+    let availability = await this.availabilityModel.findOne({
       doctorId,
       isDelete: false,
     });
     console.log('availability', availability);
     if (!availability) {
-      throw new NotFoundException('Doctor dont have aviablity');
+      availability = await this.availabilityModel.create({
+        doctorId,
+      });
     }
     const days = [
       'saturday',
