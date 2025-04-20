@@ -102,12 +102,14 @@ export class AvailabilityService {
       'thursday',
       'friday',
     ];
-    const availability = await this.availabilityModel.findOne({
+    let availability = await this.availabilityModel.findOne({
       doctorId,
       isDelete: false,
     });
     if (!availability) {
-      throw new NotFoundException('Doctor dont have aviablity');
+      availability = await this.availabilityModel.create({
+        doctorId,
+      });
     }
     const updatedAvaialability = await this.availabilityModel.findByIdAndUpdate(
       availability._id,
