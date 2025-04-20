@@ -20,6 +20,11 @@ async function bootstrap() {
       exceptionFactory: (errors) => new BadRequestException(errors),
     }),
   );
+  app.enableCors({
+    origin: ['http://localhost:3000'], // Your frontend
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    credentials: true,
+  });
   app.use(cookieParser());
   // await RabbitMqConfigModule.setup(app);
   await app.listen(process.env.PORT || 3000);
