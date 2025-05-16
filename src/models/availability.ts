@@ -7,7 +7,7 @@ export class Availability {
   doctorId: string;
 
   @Prop({})
-  profileId: string;
+  doctorProfileId: string;
 
   @Prop({ type: [String], default: [] })
   monday: string[];

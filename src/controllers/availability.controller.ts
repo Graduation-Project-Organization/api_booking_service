@@ -49,7 +49,7 @@ export class AvailabilityController {
     }
   }
 
-  @Get(':doctorId')
+  @Get('doctor/:doctorId')
   @UseGuards(JwtAuthGuard)
   async getAvailability(
     @Param('doctorId') doctorId: string,
@@ -61,6 +61,26 @@ export class AvailabilityController {
       }
       const response = await this.availabilityService.getAvailability(
         doctorId,
+        timezone,
+      );
+      return ResponseDto.ok(response);
+    } catch (err) {
+      return ResponseDto.throwBadRequest(err.message, err);
+    }
+  }
+
+  @Get('profile/:doctorProfileId')
+  @UseGuards(JwtAuthGuard)
+  async getAvailabilityByProfileId(
+    @Param('doctorProfileId') doctorProfileId: string,
+    @Query('timezone') timezone: string,
+  ) {
+    try {
+      if (!timezone) {
+        timezone = 'Africa/Cairo';
+      }
+      const response = await this.availabilityService.getAvailabilityByProfileId(
+        doctorProfileId,
         timezone,
       );
       return ResponseDto.ok(response);

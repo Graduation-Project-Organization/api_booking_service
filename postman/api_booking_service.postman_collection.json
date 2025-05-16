@@ -1,0 +1,1494 @@
+{
+	"info": {
+		"_postman_id": "088a9985-04f1-4dca-a4f1-12d0423b7a5a",
+		"name": "api_booking_service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34320045",
+		"_collection_link": "https://orange-moon-277454.postman.co/workspace/Grad-project~9ee9c0ae-92cd-4322-a91b-b96092901326/collection/34320045-088a9985-04f1-4dca-a4f1-12d0423b7a5a?action=share&source=collection_link&creator=34320045"
+	},
+	"item": [
+		{
+			"name": "appointment",
+			"item": [
+				{
+					"name": "create appointment",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "jwt={{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"appointmentDateTime\": \"2025-03-29T07:00:00.000Z\",\r\n  \"appointmentFormattedDate\": \"2025-03-29T07:00:00.000Z\",\r\n  \"appointmentTime\": \"07:30\",\r\n  \"charge\": 150,\r\n  \"doctorId\": \"67da015a689897505629edde\",\r\n  \"first_name\": \"John\",\r\n  \"last_name\": \"Doe\",\r\n  \"mail\": \"johndoe@example.com\",\r\n  \"dob\": \"1990-01-01T00:00:00Z\",\r\n  \"location\": \"123 Main St, Springfield\",\r\n  \"appointment_reason\": \"headache from 2 days\",\r\n  \"medical_documents\": [\r\n    \"doc1.pdf\",\r\n    \"doc2.pdf\"\r\n  ],\r\n  \"status\": \"pending\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_booking_service}}/api/v1/appointment",
+							"host": [
+								"{{api_booking_service}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointment"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "create appointment",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"appointmentDate\": \"2025-03-15T14:30:00Z\",\r\n  \"appointmentFormattedDate\": \"2025-03-15T14:30:00Z\",\r\n  \"appointmentTime\": \"9:00\",\r\n  \"charge\": 150,\r\n  \"doctorId\": \"67c316faa91c29bfee059174\",\r\n//   \"patientId\": \"pat_67890\",\r\n  \"first_name\": \"John\",\r\n  \"last_name\": \"Doe\",\r\n  \"mail\": \"johndoe@example.com\",\r\n  \"dob\": \"1990-01-01T00:00:00Z\",\r\n  \"location\": \"123 Main St, Springfield\",\r\n  \"appointment_reason\": \"headache from 2 days\",\r\n  \"medical_documents\": [\r\n    \"doc1.pdf\",\r\n    \"doc2.pdf\"\r\n  ],\r\n  \"status\": \"pending\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_booking_service}}/appointment",
+									"host": [
+										"{{api_booking_service}}"
+									],
+									"path": [
+										"appointment"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "667"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"29b-cqMWtTw+fykYaeSSLaxpQjiKMnk\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Mar 2025 14:39:29 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"appointmentDate\": \"2025-03-15T14:30:00.000Z\",\n        \"appointmentFormattedDate\": \"2025-03-15T14:30:00Z\",\n        \"appointmentTime\": \"9:00\",\n        \"charge\": 0.5,\n        \"doctorId\": \"67c316faa91c29bfee059174\",\n        \"patientId\": \"67c316faa91c29bfee059174\",\n        \"first_name\": \"John\",\n        \"last_name\": \"Doe\",\n        \"mail\": \"johndoe@example.com\",\n        \"dob\": \"1990-01-01T00:00:00.000Z\",\n        \"location\": \"123 Main St, Springfield\",\n        \"appointment_reason\": \"headache from 2 days\",\n        \"medical_documents\": [\n            \"doc1.pdf\",\n            \"doc2.pdf\"\n        ],\n        \"status\": \"pending\",\n        \"meeting_provider\": \"Google Meet\",\n        \"isDelete\": false,\n        \"_id\": \"67c31c2139f8f67c5b299d21\",\n        \"createdAt\": \"2025-03-01T14:39:29.718Z\",\n        \"updatedAt\": \"2025-03-01T14:39:29.718Z\",\n        \"__v\": 0,\n        \"interval\": 30\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "add payment",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "jwt={{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"appointmentDate\": \"2025-03-15T14:30:00Z\",\r\n  \"appointmentFormattedDate\": \"2025-03-15T14:30:00Z\",\r\n  \"appointmentTime\": \"9:00\",\r\n  \"charge\": 150,\r\n  \"doctorId\": \"67c316faa91c29bfee059174\",\r\n//   \"patientId\": \"pat_67890\",\r\n  \"first_name\": \"John\",\r\n  \"last_name\": \"Doe\",\r\n  \"mail\": \"johndoe@example.com\",\r\n  \"dob\": \"1990-01-01T00:00:00Z\",\r\n  \"location\": \"123 Main St, Springfield\",\r\n  \"appointment_reason\": \"headache from 2 days\",\r\n  \"medical_documents\": [\r\n    \"doc1.pdf\",\r\n    \"doc2.pdf\"\r\n  ],\r\n  \"status\": \"pending\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_booking_service}}/api/v1/appointment/create-payment/67da067e05bdab3a1e25f04c",
+							"host": [
+								"{{api_booking_service}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointment",
+								"create-payment",
+								"67da067e05bdab3a1e25f04c"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "add payment",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"appointmentDate\": \"2025-03-15T14:30:00Z\",\r\n  \"appointmentFormattedDate\": \"2025-03-15T14:30:00Z\",\r\n  \"appointmentTime\": \"9:00\",\r\n  \"charge\": 150,\r\n  \"doctorId\": \"67c316faa91c29bfee059174\",\r\n//   \"patientId\": \"pat_67890\",\r\n  \"first_name\": \"John\",\r\n  \"last_name\": \"Doe\",\r\n  \"mail\": \"johndoe@example.com\",\r\n  \"dob\": \"1990-01-01T00:00:00Z\",\r\n  \"location\": \"123 Main St, Springfield\",\r\n  \"appointment_reason\": \"headache from 2 days\",\r\n  \"medical_documents\": [\r\n    \"doc1.pdf\",\r\n    \"doc2.pdf\"\r\n  ],\r\n  \"status\": \"pending\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_booking_service}}/appointment/create-payment/67c31c2139f8f67c5b299d21",
+									"host": [
+										"{{api_booking_service}}"
+									],
+									"path": [
+										"appointment",
+										"create-payment",
+										"67c31c2139f8f67c5b299d21"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "104"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"68-fv9olYfaQL2VHPx7EE9kv/LI+EU\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Mar 2025 21:16:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"url\": \"https://www.sandbox.paypal.com/checkoutnow?token=7A836373NC973545W\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "complete payment",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "jwt={{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"appointmentDate\": \"2025-03-15T14:30:00Z\",\r\n  \"appointmentFormattedDate\": \"2025-03-15T14:30:00Z\",\r\n  \"appointmentTime\": \"9:00\",\r\n  \"charge\": 150,\r\n  \"doctorId\": \"67c316faa91c29bfee059174\",\r\n//   \"patientId\": \"pat_67890\",\r\n  \"first_name\": \"John\",\r\n  \"last_name\": \"Doe\",\r\n  \"mail\": \"johndoe@example.com\",\r\n  \"dob\": \"1990-01-01T00:00:00Z\",\r\n  \"location\": \"123 Main St, Springfield\",\r\n  \"appointment_reason\": \"headache from 2 days\",\r\n  \"medical_documents\": [\r\n    \"doc1.pdf\",\r\n    \"doc2.pdf\"\r\n  ],\r\n  \"status\": \"pending\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_booking_service}}/api/v1/appointment/complete-payment/67cb6ad2cf20031f8eb1fccd",
+							"host": [
+								"{{api_booking_service}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointment",
+								"complete-payment",
+								"67cb6ad2cf20031f8eb1fccd"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "complete payment",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "jwt={{accessToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"appointmentDate\": \"2025-03-15T14:30:00Z\",\r\n  \"appointmentFormattedDate\": \"2025-03-15T14:30:00Z\",\r\n  \"appointmentTime\": \"9:00\",\r\n  \"charge\": 150,\r\n  \"doctorId\": \"67c316faa91c29bfee059174\",\r\n//   \"patientId\": \"pat_67890\",\r\n  \"first_name\": \"John\",\r\n  \"last_name\": \"Doe\",\r\n  \"mail\": \"johndoe@example.com\",\r\n  \"dob\": \"1990-01-01T00:00:00Z\",\r\n  \"location\": \"123 Main St, Springfield\",\r\n  \"appointment_reason\": \"headache from 2 days\",\r\n  \"medical_documents\": [\r\n    \"doc1.pdf\",\r\n    \"doc2.pdf\"\r\n  ],\r\n  \"status\": \"pending\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_booking_service}}/appointment/complete-payment/67cb6ad2cf20031f8eb1fccd",
+									"host": [
+										"{{api_booking_service}}"
+									],
+									"path": [
+										"appointment",
+										"complete-payment",
+										"67cb6ad2cf20031f8eb1fccd"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "698"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2ba-F18+sxSCZbWq3DuTIOl8qlS0OBw\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 07 Mar 2025 21:58:56 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"_id\": \"67cb6ad2cf20031f8eb1fccd\",\n        \"appointmentDate\": \"2025-03-09T14:30:00.000Z\",\n        \"appointmentFormattedDate\": \"2025-03-09T14:30:00Z\",\n        \"appointmentTime\": \"10:00\",\n        \"charge\": 1,\n        \"doctorId\": \"67c316faa91c29bfee059174\",\n        \"patientId\": \"67c316faa91c29bfee059174\",\n        \"first_name\": \"John\",\n        \"last_name\": \"Doe\",\n        \"mail\": \"johndoe@example.com\",\n        \"dob\": \"1990-01-01T00:00:00.000Z\",\n        \"location\": \"123 Main St, Springfield\",\n        \"appointment_reason\": \"headache from 2 days\",\n        \"medical_documents\": [\n            \"doc1.pdf\",\n            \"doc2.pdf\"\n        ],\n        \"status\": \"completed\",\n        \"meeting_provider\": \"Google Meet\",\n        \"isDelete\": false,\n        \"createdAt\": \"2025-03-07T21:53:22.691Z\",\n        \"updatedAt\": \"2025-03-07T21:58:55.948Z\",\n        \"__v\": 0,\n        \"interval\": 30,\n        \"orderId\": \"6DM36439AX771584A\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "get appointment",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "jwt={{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_booking_service}}/api/v1/api/v1/appointment",
+							"host": [
+								"{{api_booking_service}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"api",
+								"v1",
+								"appointment"
+							],
+							"query": [
+								{
+									"key": "doctorId",
+									"value": "67c316faa91c29bfee059174",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get appointments",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_booking_service}}/appointment?doctorId=67c316faa91c29bfee059174",
+									"host": [
+										"{{api_booking_service}}"
+									],
+									"path": [
+										"appointment"
+									],
+									"query": [
+										{
+											"key": "doctorId",
+											"value": "67c316faa91c29bfee059174"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1392"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"570-wL0txZzFxXOBoNJFNYUyi1wfKag\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Mar 2025 14:59:45 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": [\n        {\n            \"_id\": \"67c31c2139f8f67c5b299d21\",\n            \"appointmentDate\": \"2025-03-15T14:30:00.000Z\",\n            \"appointmentFormattedDate\": \"2025-03-15T14:30:00Z\",\n            \"appointmentTime\": \"9:00\",\n            \"charge\": 150,\n            \"doctorId\": \"67c316faa91c29bfee059174\",\n            \"patientId\": \"67c316faa91c29bfee059174\",\n            \"first_name\": \"John\",\n            \"last_name\": \"Doe\",\n            \"mail\": \"johndoe@example.com\",\n            \"dob\": \"1990-01-01T00:00:00.000Z\",\n            \"location\": \"123 Main St, Springfield\",\n            \"appointment_reason\": \"headache from 2 days\",\n            \"medical_documents\": [\n                \"doc1.pdf\",\n                \"doc2.pdf\"\n            ],\n            \"status\": \"pending\",\n            \"meeting_provider\": \"Google Meet\",\n            \"isDelete\": false,\n            \"createdAt\": \"2025-03-01T14:39:29.718Z\",\n            \"updatedAt\": \"2025-03-01T14:39:29.718Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"67c31b9839f8f67c5b299d17\",\n            \"appointmentDate\": \"2025-03-15T14:30:00.000Z\",\n            \"appointmentFormattedDate\": \"2025-03-15T14:30:00Z\",\n            \"appointmentTime\": \"14:30\",\n            \"charge\": 150,\n            \"doctorId\": \"67c316faa91c29bfee059174\",\n            \"patientId\": \"67c316faa91c29bfee059174\",\n            \"first_name\": \"John\",\n            \"last_name\": \"Doe\",\n            \"mail\": \"johndoe@example.com\",\n            \"dob\": \"1990-01-01T00:00:00.000Z\",\n            \"location\": \"123 Main St, Springfield\",\n            \"appointment_reason\": \"headache from 2 days\",\n            \"medical_documents\": [\n                \"doc1.pdf\",\n                \"doc2.pdf\"\n            ],\n            \"status\": \"pending\",\n            \"meeting_provider\": \"Google Meet\",\n            \"isDelete\": false,\n            \"createdAt\": \"2025-03-01T14:37:12.737Z\",\n            \"updatedAt\": \"2025-03-01T14:37:12.737Z\",\n            \"__v\": 0\n        }\n    ],\n    \"metadata\": {\n        \"previousPage\": null,\n        \"nextPage\": null,\n        \"count\": 2,\n        \"currentPage\": 1,\n        \"limit\": 10,\n        \"numOfPages\": 1,\n        \"skip\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "delete appointment",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "jwt={{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_booking_service}}/api/v1/appointment/67c31b9839f8f67c5b299d17",
+							"host": [
+								"{{api_booking_service}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointment",
+								"67c31b9839f8f67c5b299d17"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get appointments",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_booking_service}}/appointment?doctorId=67c316faa91c29bfee059174",
+									"host": [
+										"{{api_booking_service}}"
+									],
+									"path": [
+										"appointment"
+									],
+									"query": [
+										{
+											"key": "doctorId",
+											"value": "67c316faa91c29bfee059174"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1392"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"570-wL0txZzFxXOBoNJFNYUyi1wfKag\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Mar 2025 14:59:45 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": [\n        {\n            \"_id\": \"67c31c2139f8f67c5b299d21\",\n            \"appointmentDate\": \"2025-03-15T14:30:00.000Z\",\n            \"appointmentFormattedDate\": \"2025-03-15T14:30:00Z\",\n            \"appointmentTime\": \"9:00\",\n            \"charge\": 150,\n            \"doctorId\": \"67c316faa91c29bfee059174\",\n            \"patientId\": \"67c316faa91c29bfee059174\",\n            \"first_name\": \"John\",\n            \"last_name\": \"Doe\",\n            \"mail\": \"johndoe@example.com\",\n            \"dob\": \"1990-01-01T00:00:00.000Z\",\n            \"location\": \"123 Main St, Springfield\",\n            \"appointment_reason\": \"headache from 2 days\",\n            \"medical_documents\": [\n                \"doc1.pdf\",\n                \"doc2.pdf\"\n            ],\n            \"status\": \"pending\",\n            \"meeting_provider\": \"Google Meet\",\n            \"isDelete\": false,\n            \"createdAt\": \"2025-03-01T14:39:29.718Z\",\n            \"updatedAt\": \"2025-03-01T14:39:29.718Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"67c31b9839f8f67c5b299d17\",\n            \"appointmentDate\": \"2025-03-15T14:30:00.000Z\",\n            \"appointmentFormattedDate\": \"2025-03-15T14:30:00Z\",\n            \"appointmentTime\": \"14:30\",\n            \"charge\": 150,\n            \"doctorId\": \"67c316faa91c29bfee059174\",\n            \"patientId\": \"67c316faa91c29bfee059174\",\n            \"first_name\": \"John\",\n            \"last_name\": \"Doe\",\n            \"mail\": \"johndoe@example.com\",\n            \"dob\": \"1990-01-01T00:00:00.000Z\",\n            \"location\": \"123 Main St, Springfield\",\n            \"appointment_reason\": \"headache from 2 days\",\n            \"medical_documents\": [\n                \"doc1.pdf\",\n                \"doc2.pdf\"\n            ],\n            \"status\": \"pending\",\n            \"meeting_provider\": \"Google Meet\",\n            \"isDelete\": false,\n            \"createdAt\": \"2025-03-01T14:37:12.737Z\",\n            \"updatedAt\": \"2025-03-01T14:37:12.737Z\",\n            \"__v\": 0\n        }\n    ],\n    \"metadata\": {\n        \"previousPage\": null,\n        \"nextPage\": null,\n        \"count\": 2,\n        \"currentPage\": 1,\n        \"limit\": 10,\n        \"numOfPages\": 1,\n        \"skip\": 0\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "availability",
+			"item": [
+				{
+					"name": "create availability",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "jwt={{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n//   \"monday\": [\"09:00\", \"10:00\", \"11:00\"],\r\n  \"tuesday\": [\"13:00\", \"14:00\"],\r\n  \"wednesday\": [\"09:30\", \"11:30\"],\r\n//   \"thursday\": [],\r\n  \"friday\": [\"08:00\", \"09:00\", \"10:00\"],\r\n  \"saturday\": [\"12:00\", \"13:00\"],\r\n//   \"sunday\": [\"10:00\", \"11:00\", \"12:00\"],\r\n  \"interval\": 60,\r\n  \"session_price\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_booking_service}}/api/v1/availability",
+							"host": [
+								"{{api_booking_service}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"availability"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "create availability",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_auth_service}}/availability",
+									"host": [
+										"{{api_auth_service}}"
+									],
+									"path": [
+										"availability"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "329"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"149-2L8HluSNHVHfFNK3zwfcHHzb+74\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Mar 2025 13:05:42 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"doctorId\": \"67c3002ba91c29bfee05916c\",\n        \"monday\": [],\n        \"tuesday\": [],\n        \"wednesday\": [],\n        \"thursday\": [],\n        \"friday\": [],\n        \"saturday\": [],\n        \"sunday\": [],\n        \"interval\": 30,\n        \"session_price\": 0.5,\n        \"isDelete\": false,\n        \"_id\": \"67c30626d85d7848fc20883b\",\n        \"createdAt\": \"2025-03-01T13:05:42.708Z\",\n        \"updatedAt\": \"2025-03-01T13:05:42.708Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "get doctor availability",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "jwt={{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_booking_service}}/api/v1/availability/doctor/67da015a689897505629edde",
+							"host": [
+								"{{api_booking_service}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"availability",
+								"doctor",
+								"67da015a689897505629edde"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get doctor availability",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_auth_service}}/availability/67c3002ba91c29bfee05916c",
+									"host": [
+										"{{api_auth_service}}"
+									],
+									"path": [
+										"availability",
+										"67c3002ba91c29bfee05916c"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "329"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"149-I7vWsF0GwyIYkNEjjonrrh9uggM\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Mar 2025 12:51:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"_id\": \"67c300cd52c4961dafa2accc\",\n        \"doctorId\": \"67c3002ba91c29bfee05916c\",\n        \"monday\": [],\n        \"tuesday\": [],\n        \"wednesday\": [],\n        \"thursday\": [],\n        \"friday\": [],\n        \"saturday\": [],\n        \"sunday\": [],\n        \"interval\": 30,\n        \"session_price\": 0.5,\n        \"isDelete\": false,\n        \"createdAt\": \"2025-03-01T12:42:53.524Z\",\n        \"updatedAt\": \"2025-03-01T12:42:53.524Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "get doctor by profile id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "jwt={{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_booking_service}}/api/v1/availability/profile/67da015a689897505629edde",
+							"host": [
+								"{{api_booking_service}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"availability",
+								"profile",
+								"67da015a689897505629edde"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "doctor available",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "jwt={{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_booking_service}}/api/v1/slots/available/67cce7875b39114fbf3cc325?day=15&month=03&year=2025",
+							"host": [
+								"{{api_booking_service}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"slots",
+								"available",
+								"67cce7875b39114fbf3cc325"
+							],
+							"query": [
+								{
+									"key": "day",
+									"value": "15"
+								},
+								{
+									"key": "month",
+									"value": "03"
+								},
+								{
+									"key": "year",
+									"value": "2025"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get doctor availability",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_auth_service}}/availability/67c3002ba91c29bfee05916c",
+									"host": [
+										"{{api_auth_service}}"
+									],
+									"path": [
+										"availability",
+										"67c3002ba91c29bfee05916c"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "329"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"149-I7vWsF0GwyIYkNEjjonrrh9uggM\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Mar 2025 12:51:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"_id\": \"67c300cd52c4961dafa2accc\",\n        \"doctorId\": \"67c3002ba91c29bfee05916c\",\n        \"monday\": [],\n        \"tuesday\": [],\n        \"wednesday\": [],\n        \"thursday\": [],\n        \"friday\": [],\n        \"saturday\": [],\n        \"sunday\": [],\n        \"interval\": 30,\n        \"session_price\": 0.5,\n        \"isDelete\": false,\n        \"createdAt\": \"2025-03-01T12:42:53.524Z\",\n        \"updatedAt\": \"2025-03-01T12:42:53.524Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "doctor first available",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "jwt={{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_booking_service}}/api/v1/slots/first-available/67cce7875b39114fbf3cc325",
+							"host": [
+								"{{api_booking_service}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"slots",
+								"first-available",
+								"67cce7875b39114fbf3cc325"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get doctor availability",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_auth_service}}/availability/67c3002ba91c29bfee05916c",
+									"host": [
+										"{{api_auth_service}}"
+									],
+									"path": [
+										"availability",
+										"67c3002ba91c29bfee05916c"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "329"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"149-I7vWsF0GwyIYkNEjjonrrh9uggM\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Mar 2025 12:51:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"_id\": \"67c300cd52c4961dafa2accc\",\n        \"doctorId\": \"67c3002ba91c29bfee05916c\",\n        \"monday\": [],\n        \"tuesday\": [],\n        \"wednesday\": [],\n        \"thursday\": [],\n        \"friday\": [],\n        \"saturday\": [],\n        \"sunday\": [],\n        \"interval\": 30,\n        \"session_price\": 0.5,\n        \"isDelete\": false,\n        \"createdAt\": \"2025-03-01T12:42:53.524Z\",\n        \"updatedAt\": \"2025-03-01T12:42:53.524Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "delete availability",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "jwt={{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_booking_service}}/api/v1/availability",
+							"host": [
+								"{{api_booking_service}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"availability"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "delete availability",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_auth_service}}/availability",
+									"host": [
+										"{{api_auth_service}}"
+									],
+									"path": [
+										"availability"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "63"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3f-iP+/wWAazYT++nuzX9zyVjSc5iA\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Mar 2025 13:04:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": \"availability deleted successfully\"\n}"
+						}
+					]
+				},
+				{
+					"name": "update availability",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "jwt={{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"saturday\": [\"9:00\", \"10:00\", \"14:30\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_booking_service}}/api/v1/api/v1/availability",
+							"host": [
+								"{{api_booking_service}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"api",
+								"v1",
+								"availability"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "update availability",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"monday\": [\"9:00\", \"10:00\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_auth_service}}/availability",
+									"host": [
+										"{{api_auth_service}}"
+									],
+									"path": [
+										"availability"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "343"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"157-L2ScLdmIv4ix7m+uHXsdBN/4O6M\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Mar 2025 13:04:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"_id\": \"67c305dcd85d7848fc208831\",\n        \"doctorId\": \"67c3002ba91c29bfee05916c\",\n        \"monday\": [\n            \"9:00\",\n            \"10:00\"\n        ],\n        \"tuesday\": [],\n        \"wednesday\": [],\n        \"thursday\": [],\n        \"friday\": [],\n        \"saturday\": [],\n        \"sunday\": [],\n        \"interval\": 30,\n        \"session_price\": 0.5,\n        \"isDelete\": false,\n        \"createdAt\": \"2025-03-01T13:04:28.121Z\",\n        \"updatedAt\": \"2025-03-01T13:04:32.452Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "get all doctor slots",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "jwt={{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"saturday\": [\"9:00\", \"10:00\", \"14:30\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_booking_service}}/api/v1/slots/available/67da015a689897505629edde?day=29&month=03&year=2025",
+							"host": [
+								"{{api_booking_service}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"slots",
+								"available",
+								"67da015a689897505629edde"
+							],
+							"query": [
+								{
+									"key": "day",
+									"value": "29"
+								},
+								{
+									"key": "month",
+									"value": "03"
+								},
+								{
+									"key": "year",
+									"value": "2025"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "update availability",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"monday\": [\"9:00\", \"10:00\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_auth_service}}/availability",
+									"host": [
+										"{{api_auth_service}}"
+									],
+									"path": [
+										"availability"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "343"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"157-L2ScLdmIv4ix7m+uHXsdBN/4O6M\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Mar 2025 13:04:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"_id\": \"67c305dcd85d7848fc208831\",\n        \"doctorId\": \"67c3002ba91c29bfee05916c\",\n        \"monday\": [\n            \"9:00\",\n            \"10:00\"\n        ],\n        \"tuesday\": [],\n        \"wednesday\": [],\n        \"thursday\": [],\n        \"friday\": [],\n        \"saturday\": [],\n        \"sunday\": [],\n        \"interval\": 30,\n        \"session_price\": 0.5,\n        \"isDelete\": false,\n        \"createdAt\": \"2025-03-01T13:04:28.121Z\",\n        \"updatedAt\": \"2025-03-01T13:04:32.452Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "nearest available slot",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "jwt={{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"saturday\": [\"9:00\", \"10:00\", \"14:30\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_booking_service}}/api/v1/slots/first-available/67da015a689897505629edde",
+							"host": [
+								"{{api_booking_service}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"slots",
+								"first-available",
+								"67da015a689897505629edde"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "update availability",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"monday\": [\"9:00\", \"10:00\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_auth_service}}/availability",
+									"host": [
+										"{{api_auth_service}}"
+									],
+									"path": [
+										"availability"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "343"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"157-L2ScLdmIv4ix7m+uHXsdBN/4O6M\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Mar 2025 13:04:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"_id\": \"67c305dcd85d7848fc208831\",\n        \"doctorId\": \"67c3002ba91c29bfee05916c\",\n        \"monday\": [\n            \"9:00\",\n            \"10:00\"\n        ],\n        \"tuesday\": [],\n        \"wednesday\": [],\n        \"thursday\": [],\n        \"friday\": [],\n        \"saturday\": [],\n        \"sunday\": [],\n        \"interval\": 30,\n        \"session_price\": 0.5,\n        \"isDelete\": false,\n        \"createdAt\": \"2025-03-01T13:04:28.121Z\",\n        \"updatedAt\": \"2025-03-01T13:04:32.452Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "zoom",
+			"item": [
+				{
+					"name": "create zoom meating",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "jwt={{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"topic\": \"My Meeting\",\r\n    // \"type\": 2,\r\n    \"duration\": 60,\r\n    \"start_time\": \"2025-06-12T10:00:00\"\r\n    // \"timezone\": \"UTC\"\r\n    // \"settings\": {\r\n    //   \"host_video\": true,\r\n    //   \"participant_video\": true,\r\n    //   \"join_before_host\": false,\r\n    //   \"mute_upon_entry\": true,\r\n    //   \"watermark\": false,\r\n    //   \"use_pmi\": false\r\n    // }\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_booking_service}}/api/v1/appointment/create-zoom-meating/67da067e05bdab3a1e25f04c",
+							"host": [
+								"{{api_booking_service}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"appointment",
+								"create-zoom-meating",
+								"67da067e05bdab3a1e25f04c"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "add zoom meating",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "jwt={{accessToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"topic\": \"My Meeting\",\r\n    // \"type\": 2,\r\n    \"duration\": 60,\r\n    \"start_time\": \"2025-06-12T10:00:00\"\r\n    // \"timezone\": \"UTC\"\r\n    // \"settings\": {\r\n    //   \"host_video\": true,\r\n    //   \"participant_video\": true,\r\n    //   \"join_before_host\": false,\r\n    //   \"mute_upon_entry\": true,\r\n    //   \"watermark\": false,\r\n    //   \"use_pmi\": false\r\n    // }\r\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_booking_service}}/appointment/create-zoom-meating/67da067e05bdab3a1e25f04c",
+									"host": [
+										"{{api_booking_service}}"
+									],
+									"path": [
+										"appointment",
+										"create-zoom-meating",
+										"67da067e05bdab3a1e25f04c"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1278"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"4fe-GXLGeNIu6L1DXuPUzsU7beH96+g\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 19 Mar 2025 00:12:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"_id\": \"67da067e05bdab3a1e25f04c\",\n        \"appointmentDateTime\": \"2025-03-19T07:30:00.000Z\",\n        \"appointmentFormattedDate\": \"2025-03-19T07:30:00Z\",\n        \"appointmentTime\": \"07:30\",\n        \"charge\": 1,\n        \"doctorId\": \"67da015a689897505629edde\",\n        \"patientId\": \"67da015a689897505629edde\",\n        \"first_name\": \"John\",\n        \"last_name\": \"Doe\",\n        \"mail\": \"johndoe@example.com\",\n        \"dob\": \"1990-01-01T00:00:00.000Z\",\n        \"location\": \"123 Main St, Springfield\",\n        \"appointment_reason\": \"headache from 2 days\",\n        \"medical_documents\": [\n            \"doc1.pdf\",\n            \"doc2.pdf\"\n        ],\n        \"status\": \"completed\",\n        \"meeting_provider\": \"Zoom\",\n        \"isDelete\": false,\n        \"createdAt\": \"2025-03-18T23:49:18.751Z\",\n        \"updatedAt\": \"2025-03-19T00:12:55.463Z\",\n        \"__v\": 0,\n        \"interval\": 30,\n        \"orderId\": \"9FE11448150547443\",\n        \"start_url\": \"https://us05web.zoom.us/s/89330115841?zak=eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJpc3MiOiJ3ZWIiLCJjbHQiOjAsIm1udW0iOiI4OTMzMDExNTg0MSIsImF1ZCI6ImNsaWVudHNtIiwidWlkIjoiS1p4TzJkbU1UbkNBZlJvMUVNODFtZyIsInppZCI6ImZkYTU5OTY5ZWUyZTQwM2FiMDg0NzU2NDc0MThiZWE4Iiwic2siOiIwIiwic3R5IjoxLCJ3Y2QiOiJ1czA1IiwiZXhwIjoxNzQyMzUwMzc1LCJpYXQiOjE3NDIzNDMxNzUsImFpZCI6IkZINndUNDlsVFpxZ0U4NW1nMHJBYVEiLCJjaWQiOiIifQ.5BYNQyuKeL8fYIGsRNkRdDE7NAUo-ZgkIfwjkO8ZEUE\",\n        \"join_url\": \"https://us05web.zoom.us/j/89330115841?pwd=5rbdhTc01OHS7xtjrpbKKpFZCMJNoq.1\"\n    }\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "Bearer token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Nzk5ZDg1YzNhYzNmMzkwMjlhZTgwZjkiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NDA4MjkzMTksImV4cCI6MTc0MDg0NzMxOX0.mQRy8pZlBty5NOgNp2WxG9N36iK6GpkzlrlE2X9wXxI",
+			"type": "default"
+		},
+		{
+			"key": "api_booking_prod",
+			"value": "https://api-booking-service.vercel.app/api/v1",
+			"type": "default"
+		}
+	]
+}

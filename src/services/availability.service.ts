@@ -160,6 +160,34 @@ export class AvailabilityService {
     }
     return availability;
   }
+  async getAvailabilityByProfileId(doctorProfileId: string, timezone: string) {
+    let availability = await this.availabilityModel.findOne({
+      doctorProfileId,
+      isDelete: false,
+    });
+    console.log('availability', availability);
+    if (!availability) {
+      availability = await this.availabilityModel.create({
+        doctorProfileId,
+      });
+    }
+    const days = [
+      'saturday',
+      'sunday',
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+    ];
+    for (let i = 0; i < days.length; i++) {
+      const day = days[i];
+      availability[day] = availability[day].map((value) => {
+        return this.getLocalTimeFromUtc(value, timezone);
+      });
+    }
+    return availability;
+  }
   async deleteAvailability(docId) {
     const av = await this.availabilityModel.findOne({ doctorId: docId });
     if (!av) {
