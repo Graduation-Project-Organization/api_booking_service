@@ -9,7 +9,7 @@ import {
 
 export class CreateAppointmentDto {
   @IsDateString()
-  appointmentDateTime: Date;
+  appointmentDateTime: string;
 
   @IsDateString()
   appointmentFormattedDate: string;

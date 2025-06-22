@@ -242,15 +242,24 @@ export class SlotService {
       timezone,
     );
 
-    const slots = await this.workingModel.find({
-      from: {
-        $gte: startOfDayUTC,
-        $lte: endOfDayUTC,
-      },
-      doctorId,
+    const slots = await this.workingModel
+      .find({
+        from: {
+          $gte: startOfDayUTC,
+          $lte: endOfDayUTC,
+        },
+        doctorId,
+      })
+      .select('from');
+
+    const data = slots.map((ele) => {
+      const time = DateTime.fromISO(ele.from.toISOString(), {
+        zone: 'utc',
+      }).setZone(timezone);
+      return time;
     });
 
-    return slots;
+    return data;
   }
   private getLocalTimeFromUtc(utcDateTime: string, timeZone: string): string {
     const localTime = DateTime.fromISO(utcDateTime, { zone: 'utc' }).setZone(
