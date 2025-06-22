@@ -102,12 +102,6 @@ export class SlotService {
     // Return the hour in HH:mm format
     return localTime.toFormat('HH:mm');
   }
-  //   this.eventEmitter.emit('add:slots', {
-  //     weekday: day,
-  //     workingHours: availability[day],
-  //     doctorId: body.doctorId,
-  //     timezone,
-  //   });
 
   @OnEvent('add:slots')
   async addSlots({ weekday, workingHours, doctorId, timezone, interval }) {
@@ -259,7 +253,7 @@ export class SlotService {
       return time;
     });
 
-    return data;
+    return { data };
   }
   private getLocalTimeFromUtc(utcDateTime: string, timeZone: string): string {
     const localTime = DateTime.fromISO(utcDateTime, { zone: 'utc' }).setZone(
