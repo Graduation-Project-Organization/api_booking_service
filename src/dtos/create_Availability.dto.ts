@@ -14,8 +14,8 @@ export class CreateAvailabilityDto {
 
   @IsString()
   @IsOptional()
-  doctorProfileId: string
-  
+  doctorProfileId: string;
+
   @IsArray()
   @ArrayUnique()
   @IsOptional()

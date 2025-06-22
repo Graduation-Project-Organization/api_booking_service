@@ -21,7 +21,6 @@ export class DoctorAppointmentQueryDto {
   keyword: string;
   @IsOptional()
   doctorId: string;
-
 }
 export class PatientAppointmentQueryDto {
   @IsOptional()

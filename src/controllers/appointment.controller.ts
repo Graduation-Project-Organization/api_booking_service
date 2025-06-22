@@ -15,7 +15,11 @@ import { JwtAuthGuard } from '../core/jwt-auth-guard/jwt-auth.guard';
 import { ResponseDto } from '../dtos/response.dto';
 import { AppointmentService } from '../services/appointment.service';
 import { CreateAppointmentDto } from '../dtos/create_appointment.dto';
-import { AppointmentQueryDto, DoctorAppointmentQueryDto, PatientAppointmentQueryDto } from '../dtos/appointment.query.dto';
+import {
+  AppointmentQueryDto,
+  DoctorAppointmentQueryDto,
+  PatientAppointmentQueryDto,
+} from '../dtos/appointment.query.dto';
 
 @Controller('api/v1/appointment')
 @ApiBearerAuth()
@@ -52,7 +56,9 @@ export class AppointmentController {
 
   @Get('doctor')
   @UseGuards(JwtAuthGuard)
-  async getDoctorAppointments(@Query() queryAppointmentDto: DoctorAppointmentQueryDto) {
+  async getDoctorAppointments(
+    @Query() queryAppointmentDto: DoctorAppointmentQueryDto,
+  ) {
     try {
       // console.log('queryAppointmentDto', queryAppointmentDto);
       const response =
@@ -65,7 +71,9 @@ export class AppointmentController {
 
   @Get('patient')
   @UseGuards(JwtAuthGuard)
-  async getPatientAppointments(@Query() queryAppointmentDto: PatientAppointmentQueryDto) {
+  async getPatientAppointments(
+    @Query() queryAppointmentDto: PatientAppointmentQueryDto,
+  ) {
     try {
       // console.log('queryAppointmentDto', queryAppointmentDto);
       const response =

@@ -30,10 +30,10 @@ export class Appointment {
   @Prop({ type: String, required: true })
   patientId: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   firstName: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   lastName: string;
 
   @Prop({ type: String, required: true })
