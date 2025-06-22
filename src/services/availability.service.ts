@@ -44,48 +44,6 @@ export class AvailabilityService {
     // Return UTC time in ISO format and hour
     return utcTime.toFormat('HH:mm');
   }
-  // async createAvailability(body: CreateAvailabilityDto, timezone?: string) {
-  //   // body.session_price = 1;
-  //   const timesBody = { ...body };
-  //   const days = [
-  //     'saturday',
-  //     'sunday',
-  //     'monday',
-  //     'tuesday',
-  //     'wednesday',
-  //     'thursday',
-  //     'friday',
-  //   ];
-  //   const availabilityExist = await this.availabilityModel.findOne({
-  //     doctorId: body.doctorId,
-  //     isDelete: false,
-  //   });
-  //   if (availabilityExist) {
-  //     throw new NotFoundException('Doctor have an availability');
-  //   }
-  //   for (let i = 0; i < days.length; i++) {
-  //     const day = days[i];
-  //     if (body[day] && body[day].length > 0) {
-  //       body[day] = this.formatAndSortTimeArray(body[day]).map((value) => {
-  //         return this.getUtcTime(value, timezone);
-  //       });
-  //     }
-  //   }
-  //   const availability = await this.availabilityModel.create(body);
-  //   for (let i = 0; i < days.length; i++) {
-  //     const day = days[i];
-  //     if (timesBody[day] && timesBody[day]?.length > 0) {
-  //       this.eventEmitter.emit('add:slots', {
-  //         weekday: day,
-  //         workingHours: timesBody[day],
-  //         doctorId: body.doctorId,
-  //         timezone,
-  //         interval: availability.interval,
-  //       });
-  //     }
-  //   }
-  //   return availability;
-  // }
   async updateAvailability(
     doctorId: string,
     body: UpdateAvailability,
@@ -186,12 +144,4 @@ export class AvailabilityService {
     }
     return availability;
   }
-  // async deleteAvailability(docId) {
-  //   const av = await this.availabilityModel.findOne({ doctorId: docId });
-  //   if (!av) {
-  //     throw new NotFoundException('availability not found');
-  //   }
-  //   await this.availabilityModel.findByIdAndDelete(av._id);
-  //   return 'availability deleted';
-  // }
 }

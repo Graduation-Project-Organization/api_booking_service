@@ -13,6 +13,7 @@ import { AppointmentQueryDto } from '../dtos/appointment.query.dto';
 import { CreateAppointmentDto } from '../dtos/create_appointment.dto';
 import { Working } from '../models/slot.entity';
 import { ZoomService } from './zoom.service';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class AppointmentService {
@@ -27,13 +28,31 @@ export class AppointmentService {
     private workingModel: Model<Working>,
     private zoomService: ZoomService,
   ) {}
+  toUTC(dateStr: string): string {
+    const hasTimeZone = /[zZ]|([+-]\d{2}:\d{2})$/.test(dateStr);
+
+    const dt = hasTimeZone
+      ? DateTime.fromISO(dateStr).toUTC() // has Z or +hh:mm offset
+      : DateTime.fromISO(dateStr, { zone: 'Africa/Cairo' }).toUTC(); // assume Egypt time
+
+    return dt.toISO(); // always returns UTC in ISO format
+  }
+
   async createAppointment(body: CreateAppointmentDto) {
     const availability = await this.availabilityModel.findOne({
       doctorId: body.doctorId,
       isDelete: false,
     });
+    body.appointmentDateTime = this.toUTC(body.appointmentDateTime);
+    body.appointmentFormattedDate = body.appointmentDateTime;
+    const from = new Date(
+      new Date(body.appointmentDateTime).getTime() - 2 * 60 * 1000,
+    );
+    const to = new Date(
+      new Date(body.appointmentDateTime).getTime() + 2 * 60 * 1000,
+    );
     const available = await this.workingModel.findOne({
-      from: body.appointmentDateTime,
+      from: { $gt: from, $lt: to },
       doctorId: body.doctorId,
     });
     if (!available) {
@@ -107,7 +126,7 @@ export class AppointmentService {
     return appointment;
   }
   async getAppointments(queryStr: AppointmentQueryDto) {
-    const Query = { ...queryStr, status: { $ne: 'cancelled' } };
+    const Query = { ...queryStr };
     const { query, paginationObj } = await this.apiService.getAllDocs(
       this.appointmentModel.find(),
       Query,
