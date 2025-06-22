@@ -23,8 +23,8 @@ export class SlotController {
     );
   }
 
-  @Get('first-available/:doctorId')
-  async getFirstSlotAvailable(@Param('doctorId') doctorId: string) {
-    return this.slotService.getFirstSlotAvailable(doctorId);
-  }
+  // @Get('first-available/:doctorId')
+  // async getFirstSlotAvailable(@Param('doctorId') doctorId: string) {
+  //   return this.slotService.getFirstSlotAvailable(doctorId);
+  // }
 }

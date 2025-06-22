@@ -33,7 +33,7 @@ export class Availability {
   @Prop({ default: 60 })
   interval: number; // default number on minutes
 
-  @Prop({ default: 0.5 })
+  @Prop({ default: 2 })
   session_price: number;
 
   @Prop({ type: Boolean, default: false })

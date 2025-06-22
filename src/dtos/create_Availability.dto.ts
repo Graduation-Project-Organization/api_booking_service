@@ -46,10 +46,10 @@ export class CreateAvailabilityDto {
   @IsOptional()
   sunday?: string[];
 
-  @IsNumber()
-  @Min(1)
-  @IsOptional()
-  interval?: number = 30;
+  // @IsNumber()
+  // @Min(1)
+  // @IsOptional()
+  // interval?: number = 30;
 
   @IsNumber()
   @Min(0)

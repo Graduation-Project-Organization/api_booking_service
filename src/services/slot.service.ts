@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { Working } from '../models/slot.entity';
 import { OnEvent } from '@nestjs/event-emitter';
 import { Appointment } from '../models/appointment';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class SlotService {
@@ -46,7 +46,7 @@ export class SlotService {
 
   getDatesArray(weekday: string) {
     const today = new Date();
-    const todayDayOfWeek = today.getDay();
+    const todayDayOfWeek = today.getUTCDay();
     const daysOfWeek = [
       'sunday',
       'monday',
@@ -65,7 +65,7 @@ export class SlotService {
     for (let i = 0; i < 4; i++) {
       const nextDate = new Date();
       nextDate.setUTCHours(0, 0, 0, 0);
-      nextDate.setDate(today.getDate() + daysToAdd + i * 7);
+      nextDate.setUTCDate(today.getUTCDate() + daysToAdd + i * 7);
 
       resultDates.push({
         day: nextDate.getUTCDate(),
@@ -73,6 +73,7 @@ export class SlotService {
         month: nextDate.getUTCMonth() + 1,
       });
     }
+    console.log('dates day month year', resultDates);
     return resultDates;
   }
 
@@ -155,19 +156,18 @@ export class SlotService {
     for (let i = 0; i < workingHours.length; i += 1) {
       const fromTime = new Date(workingHours[i]);
       const toTime = new Date(
-        new Date(workingHours[i + 1]).getTime() + interval * 60 * 1000,
+        new Date(workingHours[i]).getTime() + interval * 60 * 1000,
       );
       const appointment = await this.appointmentModel.findOne({
         doctorId,
         status: { $in: ['pending', 'confirmed'] },
-        $or: [
-          {
-            appointmentDateTime: { $lt: toTime }, // Starts before the new appointment ends
-            appointmentEndTime: { $gt: fromTime }, // Ends after the new appointment starts
-          },
-        ],
+        appointmentDateTime: { $lt: toTime },
+        appointmentEndTime: { $gt: fromTime },
       });
-      console.log(appointment);
+
+      console.log('appintment name', appointment);
+
+      //   start < to && end > from
       if (appointment) {
         continue; // Skip creating slots for existing appointments
       }
@@ -191,7 +191,7 @@ export class SlotService {
       'friday',
       'saturday',
     ];
-    const dayIndex = date.getDay();
+    const dayIndex = date.getUTCDay();
     return daysOfWeek[dayIndex];
   }
   async createSlot(
@@ -252,16 +252,77 @@ export class SlotService {
 
     return slots;
   }
+  private getLocalTimeFromUtc(utcDateTime: string, timeZone: string): string {
+    const localTime = DateTime.fromISO(utcDateTime, { zone: 'utc' }).setZone(
+      timeZone,
+    );
+    return localTime.toFormat('dd-MM-yyyy HH:mm');
+  }
+  async validateAppointmentExist(
+    weekday: string,
+    doctorId: string,
+    workingHours: string[],
+    interval: number,
+    timezone: string,
+  ) {
+    const resultDates = this.getDatesArray(weekday); // returns next few matching days (e.g., next 4 Tuesdays)
 
-  async getFirstSlotAvailable(doctorId: string) {
-    const slot = await this.workingModel
-      .findOne({
-        from: {
-          $gte: new Date(),
-        },
+    for (const { day, year, month } of resultDates) {
+      const { startOfDayUTC, endOfDayUTC } = this.getLocalTime(
+        day,
+        month,
+        year,
+        timezone,
+      );
+
+      // 1. Find all appointments for this doctor on this day
+      const appointments = await this.appointmentModel.find({
         doctorId,
-      })
-      .sort('from');
-    return slot;
+        status: { $in: ['pending', 'confirmed'] },
+        appointmentDateTime: {
+          $gte: new Date(startOfDayUTC),
+          $lte: new Date(endOfDayUTC),
+        },
+      });
+
+      // 2. Convert workingHours to UTC time slots
+      const utcWorkingTimes: { from: Date; to: Date }[] = [];
+      const convertedWorkingHours = this.convertToUtc(
+        day,
+        month,
+        year,
+        workingHours,
+        timezone,
+      );
+
+      for (let i = 0; i < convertedWorkingHours.length; i++) {
+        const from = new Date(convertedWorkingHours[i]);
+        const to = new Date(from.getTime() + interval * 60 * 1000);
+        utcWorkingTimes.push({ from, to });
+      }
+
+      // 3. Check for mismatched appointments
+      for (const appointment of appointments) {
+        const exists = utcWorkingTimes.some(
+          ({ from, to }) =>
+            appointment.appointmentDateTime.getTime() === from.getTime() &&
+            appointment.appointmentEndTime.getTime() === to.getTime(),
+        );
+
+        if (!exists) {
+          const from = this.getLocalTimeFromUtc(
+            appointment.appointmentDateTime.toISOString(),
+            timezone,
+          );
+          const to = this.getLocalTimeFromUtc(
+            appointment.appointmentEndTime.toISOString(),
+            timezone,
+          );
+          throw new NotFoundException(
+            `Appointment from ${from} to ${to} is not in the defined working hours.`,
+          );
+        }
+      }
+    }
   }
 }
