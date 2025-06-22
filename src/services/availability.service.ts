@@ -49,6 +49,7 @@ export class AvailabilityService {
     body: UpdateAvailability,
     timezone?: string,
   ) {
+    body.doctorProfileId = doctorProfileId;
     const timesBody = { ...body };
     const days = [
       'saturday',
