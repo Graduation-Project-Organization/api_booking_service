@@ -45,7 +45,7 @@ export class AvailabilityService {
     return utcTime.toFormat('HH:mm');
   }
   async updateAvailability(
-    doctorId: string,
+    doctorProfileId: string,
     body: UpdateAvailability,
     timezone?: string,
   ) {
@@ -60,12 +60,12 @@ export class AvailabilityService {
       'friday',
     ];
     let availability = await this.availabilityModel.findOne({
-      doctorId,
+      doctorProfileId,
       isDelete: false,
     });
     if (!availability) {
       availability = await this.availabilityModel.create({
-        doctorId,
+        doctorProfileId,
       });
     }
     for (let i = 0; i < days.length; i++) {
@@ -73,7 +73,7 @@ export class AvailabilityService {
       if (timesBody[day] && timesBody[day]?.length >= 0) {
         await this.slotService.validateAppointmentExist(
           day,
-          doctorId,
+          doctorProfileId,
           timesBody[day],
           availability.interval,
           timezone,
@@ -102,7 +102,7 @@ export class AvailabilityService {
         this.eventEmitter.emit('add:slots', {
           weekday: day,
           workingHours: timesBody[day],
-          doctorId: doctorId,
+          doctorProfileId: doctorProfileId,
           timezone,
           interval: updatedAvaialability.interval,
         });
@@ -116,15 +116,15 @@ export class AvailabilityService {
     }
     return updatedAvaialability;
   }
-  async getAvailability(doctorId: string, timezone: string) {
+  async getAvailability(doctorProfileId: string, timezone: string) {
     let availability = await this.availabilityModel.findOne({
-      doctorId,
+      doctorProfileId,
       isDelete: false,
     });
     console.log('availability', availability);
     if (!availability) {
       availability = await this.availabilityModel.create({
-        doctorId,
+        doctorProfileId,
       });
     }
     const days = [

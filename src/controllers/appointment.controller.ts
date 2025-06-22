@@ -28,14 +28,10 @@ export class AppointmentController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  async createAppointmet(
-    @Body() createAppointmentDto: CreateAppointmentDto,
-    @Req() req: any,
-  ) {
+  async createAppointmet(@Body() body: CreateAppointmentDto, @Req() req: any) {
     try {
-      createAppointmentDto.patientId = req.user.userId;
-      const response =
-        await this.appointmentService.createAppointment(createAppointmentDto);
+      body.patientId = req.user.userId;
+      const response = await this.appointmentService.createAppointment(body);
       return ResponseDto.ok(response);
     } catch (err) {
       return ResponseDto.throwBadRequest(err.message, err);

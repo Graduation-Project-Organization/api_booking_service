@@ -5,9 +5,9 @@ import { SlotService } from '../services/slot.service';
 export class SlotController {
   constructor(private readonly slotService: SlotService) {}
 
-  @Get('available/:doctorId')
+  @Get('available/:doctorProfileId')
   async getAllAvailableSlots(
-    @Param('doctorId') doctorId: string,
+    @Param('doctorProfileId') doctorProfileId: string,
     @Query('day', new ParseIntPipe()) day: number,
     @Query('month', new ParseIntPipe()) month: number,
     @Query('year', new ParseIntPipe()) year: number,
@@ -17,14 +17,9 @@ export class SlotController {
       timezone = 'Africa/Cairo';
     }
     return this.slotService.getAllAvailableSlots(
-      doctorId,
+      doctorProfileId,
       { day, month, year },
       timezone,
     );
   }
-
-  // @Get('first-available/:doctorId')
-  // async getFirstSlotAvailable(@Param('doctorId') doctorId: string) {
-  //   return this.slotService.getFirstSlotAvailable(doctorId);
-  // }
 }

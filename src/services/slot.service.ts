@@ -12,7 +12,6 @@ export class SlotService {
     @InjectModel(Working.name) private workingModel: Model<Working>,
     @InjectModel(Appointment.name) private appointmentModel: Model<Appointment>,
   ) {}
-
   convertToUtc(
     day: number,
     month: number,
@@ -79,7 +78,7 @@ export class SlotService {
 
   async getNextFourWeeksDatesForDay(
     weekday: string,
-    doctorId: string,
+    doctorProfileId: string,
     workingHours: string[],
     interval: number,
     timezone: string,
@@ -87,7 +86,7 @@ export class SlotService {
     const resultDates = this.getDatesArray(weekday);
     for (const { day, year, month } of resultDates) {
       await this.createSlot(
-        { day, year, month, workingHours, doctorId, interval },
+        { day, year, month, workingHours, interval, doctorProfileId },
         timezone,
       );
       console.log('this is day an d', day, year, month);
@@ -104,10 +103,16 @@ export class SlotService {
   }
 
   @OnEvent('add:slots')
-  async addSlots({ weekday, workingHours, doctorId, timezone, interval }) {
+  async addSlots({
+    weekday,
+    workingHours,
+    doctorProfileId,
+    timezone,
+    interval,
+  }) {
     await this.getNextFourWeeksDatesForDay(
       weekday,
-      doctorId,
+      doctorProfileId,
       workingHours,
       interval,
       timezone,
@@ -141,7 +146,7 @@ export class SlotService {
     day: number,
     month: number,
     year: number,
-    doctorId: string,
+    doctorProfileId: string,
     interval: number,
     timezone: string,
   ) {
@@ -153,7 +158,7 @@ export class SlotService {
         new Date(workingHours[i]).getTime() + interval * 60 * 1000,
       );
       const appointment = await this.appointmentModel.findOne({
-        doctorId,
+        doctorProfileId,
         status: { $in: ['pending', 'confirmed'] },
         appointmentDateTime: { $lt: toTime },
         appointmentEndTime: { $gt: fromTime },
@@ -167,8 +172,10 @@ export class SlotService {
       }
       const slot = await this.workingModel.create({
         from: workingHours[i],
-        doctorId,
+        doctorProfileId,
       });
+
+      console.log('slot is ', slot);
 
       console.log('slots created', slot);
     }
@@ -194,8 +201,8 @@ export class SlotService {
       year: number;
       month: number;
       workingHours: string[];
-      doctorId: string;
       interval: number;
+      doctorProfileId: string;
     },
     timezone: string,
   ) {
@@ -206,9 +213,10 @@ export class SlotService {
       timezone,
     );
 
-    console.log('dpctor id is', body.doctorId);
+    console.log('dpctor id is', body.doctorProfileId);
 
     await this.workingModel.deleteMany({
+      doctorProfileId: body.doctorProfileId,
       from: { $gte: startOfDayUTC, $lte: endOfDayUTC },
     });
 
@@ -217,18 +225,18 @@ export class SlotService {
       body.day,
       body.month,
       body.year,
-      body.doctorId,
+      body.doctorProfileId,
       body.interval,
       timezone,
     );
   }
 
   async getAllAvailableSlots(
-    doctorId: string,
+    doctorProfileId: string,
     { day, month, year }: { day: number; month: number; year: number },
     timezone: string,
   ) {
-    console.log(doctorId);
+    console.log(doctorProfileId);
     const { startOfDayUTC, endOfDayUTC } = this.getLocalTime(
       day,
       month,
@@ -242,7 +250,7 @@ export class SlotService {
           $gte: startOfDayUTC,
           $lte: endOfDayUTC,
         },
-        doctorId,
+        doctorProfileId,
       })
       .select('from');
 
@@ -263,7 +271,7 @@ export class SlotService {
   }
   async validateAppointmentExist(
     weekday: string,
-    doctorId: string,
+    doctorProfileId: string,
     workingHours: string[],
     interval: number,
     timezone: string,
@@ -280,7 +288,7 @@ export class SlotService {
 
       // 1. Find all appointments for this doctor on this day
       const appointments = await this.appointmentModel.find({
-        doctorId,
+        doctorProfileId,
         status: { $in: ['pending', 'confirmed'] },
         appointmentDateTime: {
           $gte: new Date(startOfDayUTC),

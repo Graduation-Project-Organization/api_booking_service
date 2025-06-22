@@ -4,12 +4,6 @@ import { HydratedDocument } from 'mongoose';
 @Schema({ timestamps: true })
 export class Availability {
   @Prop({})
-  doctorId: string;
-
-  // @Prop({})
-  // profileId: string;
-
-  @Prop({})
   doctorProfileId: string;
 
   @Prop({ type: [String], default: [] })

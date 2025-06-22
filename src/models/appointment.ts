@@ -22,11 +22,9 @@ export class Appointment {
   @Prop({ type: Number, required: true })
   charge: number;
 
-  // Doctor details
   @Prop({ type: String, required: true })
-  doctorId: string;
+  doctorProfileId: string;
 
-  // Patient details
   @Prop({ type: String, required: true })
   patientId: string;
 

@@ -40,7 +40,7 @@ export class AppointmentService {
 
   async createAppointment(body: CreateAppointmentDto) {
     const availability = await this.availabilityModel.findOne({
-      doctorId: body.doctorId,
+      doctorProfileId: body.doctorProfileId,
       isDelete: false,
     });
     body.appointmentDateTime = this.toUTC(body.appointmentDateTime);
@@ -53,7 +53,7 @@ export class AppointmentService {
     );
     const available = await this.workingModel.findOne({
       from: { $gt: from, $lt: to },
-      doctorId: body.doctorId,
+      doctorProfileId: body.doctorProfileId,
     });
     if (!available) {
       throw new NotFoundException('Doctor is not available at this time.');
@@ -80,7 +80,7 @@ export class AppointmentService {
     }
     await this.workingModel.create({
       from: appointment.appointmentDateTime,
-      doctorId: appointment.doctorId,
+      doctorProfileId: appointment.doctorProfileId,
     });
     return 'appointment cancelled successfully';
   }
@@ -150,7 +150,7 @@ export class AppointmentService {
       throw new BadRequestException(`User should pay before add meating`);
     }
     const availability = await this.availabilityModel.findOne({
-      doctorId: appointment.doctorId,
+      doctorProfileId: appointment.doctorProfileId,
     });
     const meatingDetails = await this.zoomService.createMeeting(
       'meating topic',

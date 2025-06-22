@@ -10,8 +10,6 @@ import {
 } from 'class-validator';
 
 export class CreateAvailabilityDto {
-  doctorId: string;
-
   @IsString()
   @IsOptional()
   doctorProfileId: string;

@@ -6,8 +6,8 @@ export class Working extends Document {
   @Prop({ type: Date })
   from: Date;
 
-  @Prop({ type: String })
-  doctorId: string;
+  @Prop({})
+  doctorProfileId: string;
 }
 
 export const WorkingSchema = SchemaFactory.createForClass(Working);

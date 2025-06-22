@@ -23,7 +23,7 @@ export class CreateAppointmentDto {
 
   // Doctor details
   @IsString()
-  doctorId: string;
+  doctorProfileId: string;
 
   @IsString()
   @IsOptional()
