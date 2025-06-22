@@ -30,13 +30,13 @@ export class CreateAppointmentDto {
   patientId: string;
 
   @IsString()
-  first_name: string;
+  firstName: string;
 
   @IsString()
-  last_name: string;
+  lastName: string;
 
   @IsString()
-  mail: string;
+  email: string;
 
   @IsDateString()
   dob: Date;

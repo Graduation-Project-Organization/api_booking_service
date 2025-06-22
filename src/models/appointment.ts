@@ -31,13 +31,13 @@ export class Appointment {
   patientId: string;
 
   @Prop({ type: String, required: true })
-  first_name: string;
+  firstName: string;
 
   @Prop({ type: String, required: true })
-  last_name: string;
+  lastName: string;
 
   @Prop({ type: String, required: true })
-  mail: string;
+  email: string;
 
   @Prop({ type: Date, required: true })
   dob: Date;

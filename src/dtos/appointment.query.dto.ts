@@ -7,6 +7,29 @@ export class AppointmentQueryDto {
   limit: string;
   @IsOptional()
   keyword: string;
+  @IsOptional()
   doctorId: string;
+  @IsOptional()
+  patientId: string;
+}
+export class DoctorAppointmentQueryDto {
+  @IsOptional()
+  page: string;
+  @IsOptional()
+  limit: string;
+  @IsOptional()
+  keyword: string;
+  @IsOptional()
+  doctorId: string;
+
+}
+export class PatientAppointmentQueryDto {
+  @IsOptional()
+  page: string;
+  @IsOptional()
+  limit: string;
+  @IsOptional()
+  keyword: string;
+  @IsOptional()
   patientId: string;
 }

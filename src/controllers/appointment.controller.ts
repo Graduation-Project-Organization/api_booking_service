@@ -15,7 +15,7 @@ import { JwtAuthGuard } from '../core/jwt-auth-guard/jwt-auth.guard';
 import { ResponseDto } from '../dtos/response.dto';
 import { AppointmentService } from '../services/appointment.service';
 import { CreateAppointmentDto } from '../dtos/create_appointment.dto';
-import { AppointmentQueryDto } from '../dtos/appointment.query.dto';
+import { AppointmentQueryDto, DoctorAppointmentQueryDto, PatientAppointmentQueryDto } from '../dtos/appointment.query.dto';
 
 @Controller('api/v1/appointment')
 @ApiBearerAuth()
@@ -41,6 +41,7 @@ export class AppointmentController {
   @UseGuards(JwtAuthGuard)
   async getAppointments(@Query() queryAppointmentDto: AppointmentQueryDto) {
     try {
+      // console.log('queryAppointmentDto', queryAppointmentDto);
       const response =
         await this.appointmentService.getAppointments(queryAppointmentDto);
       return ResponseDto.ok(response.data, undefined, response.paginationObj);
@@ -48,6 +49,33 @@ export class AppointmentController {
       return ResponseDto.throwBadRequest(err.message, err);
     }
   }
+
+  @Get('doctor')
+  @UseGuards(JwtAuthGuard)
+  async getDoctorAppointments(@Query() queryAppointmentDto: DoctorAppointmentQueryDto) {
+    try {
+      // console.log('queryAppointmentDto', queryAppointmentDto);
+      const response =
+        await this.appointmentService.getAppointments(queryAppointmentDto);
+      return ResponseDto.ok(response.data, undefined, response.paginationObj);
+    } catch (err) {
+      return ResponseDto.throwBadRequest(err.message, err);
+    }
+  }
+
+  @Get('patient')
+  @UseGuards(JwtAuthGuard)
+  async getPatientAppointments(@Query() queryAppointmentDto: PatientAppointmentQueryDto) {
+    try {
+      // console.log('queryAppointmentDto', queryAppointmentDto);
+      const response =
+        await this.appointmentService.getAppointments(queryAppointmentDto);
+      return ResponseDto.ok(response.data, undefined, response.paginationObj);
+    } catch (err) {
+      return ResponseDto.throwBadRequest(err.message, err);
+    }
+  }
+
   @Delete(':appointmentId')
   @UseGuards(JwtAuthGuard)
   async deleteAppointment(@Param('appointmentId') appointmentId: string) {

@@ -91,7 +91,7 @@ export class AppointmentService {
     }
     const { url, orderId } = await this.paypalService.createOrder({
       refId: appointment._id.toString(),
-      name: appointment.first_name,
+      name: appointment.firstName,
       price: appointment.charge,
       description: 'appointment booking',
       user: appointment.patientId,
@@ -125,7 +125,7 @@ export class AppointmentService {
     }
     return appointment;
   }
-  async getAppointments(queryStr: AppointmentQueryDto) {
+  async getAppointments(queryStr) {
     const Query = { ...queryStr };
     const { query, paginationObj } = await this.apiService.getAllDocs(
       this.appointmentModel.find(),

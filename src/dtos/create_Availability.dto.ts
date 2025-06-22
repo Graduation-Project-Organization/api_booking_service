@@ -6,11 +6,16 @@ import {
   IsNumber,
   ArrayUnique,
   Min,
+  IsString,
 } from 'class-validator';
 
 export class CreateAvailabilityDto {
   doctorId: string;
 
+  @IsString()
+  @IsOptional()
+  doctorProfileId: string
+  
   @IsArray()
   @ArrayUnique()
   @IsOptional()
