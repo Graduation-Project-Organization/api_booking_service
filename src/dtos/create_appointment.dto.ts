@@ -1,45 +1,72 @@
 import {
   IsString,
   IsNotEmpty,
-  IsArray,
   IsOptional,
-  IsNumber,
+  IsArray,
+  IsEnum,
   IsDateString,
 } from 'class-validator';
 
 export class CreateAppointmentDto {
-  @IsDateString()
+  // Appointment detail
+  @IsString()
   appointmentDateTime: string;
 
-  @IsDateString()
+  @IsString()
+  @IsOptional()
+  appointmentDate: string;
+
+  appointmentEndTime?: string;
+
+  @IsString()
+  @IsOptional()
   appointmentFormattedDate: string;
 
   @IsString()
+  @IsOptional()
+  day?: string;
+
+  @IsString()
+  @IsOptional()
   appointmentTime: string;
 
-  @IsNumber()
-  @IsOptional()
-  charge: number;
+  charge?: number;
 
   // Doctor details
   @IsString()
-  doctorProfileId: string;
+  doctorId: string;
+
+  doctorProfileId?: string;
 
   @IsString()
   @IsOptional()
-  patientId: string;
+  doctorName?: string;
+
+  patientId?: string;
 
   @IsString()
-  firstName: string;
+  @IsOptional()
+  gender?: string;
 
   @IsString()
-  lastName: string;
+  @IsOptional()
+  phone?: string;
 
   @IsString()
-  email: string;
+  @IsOptional()
+  firstName?: string;
+
+  @IsString()
+  @IsOptional()
+  lastName?: string;
+
+  @IsString()
+  @IsOptional()
+  email?: string;
 
   @IsDateString()
-  dob: Date;
+  @IsOptional()
+  dob?: string;
 
   @IsString()
   @IsNotEmpty()
@@ -47,20 +74,33 @@ export class CreateAppointmentDto {
 
   @IsString()
   @IsOptional()
-  appointment_reason: string;
-
-  @IsString()
-  @IsOptional()
-  start_url: string;
-
-  @IsString()
-  @IsOptional()
-  join_url: string;
+  appointmentReason?: string;
 
   @IsArray()
   @IsString({ each: true })
   @IsOptional()
-  medical_documents?: string[];
+  medicalDocuments?: string[];
+
+  @IsString()
+  @IsOptional()
+  occupation?: string;
 
   status?: string = 'pending';
+
+  // Meeting details
+  @IsString()
+  @IsOptional()
+  meetingLink?: string;
+
+  @IsString()
+  @IsOptional()
+  startUrl?: string;
+
+  @IsString()
+  @IsOptional()
+  joinUrl?: string;
+
+  @IsEnum(['Google Meet', 'Zoom', 'Microsoft Teams'])
+  @IsOptional()
+  meetingProvider?: string;
 }

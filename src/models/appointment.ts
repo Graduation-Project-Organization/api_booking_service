@@ -8,25 +8,40 @@ export class Appointment {
   appointmentDateTime: Date;
 
   @Prop({ type: Date })
+  appointmentDate: Date;
+
+  @Prop({ type: Date })
   appointmentEndTime: Date;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   appointmentFormattedDate: string;
 
   @Prop({ type: String })
   day: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   appointmentTime: string;
 
-  @Prop({ type: Number, required: true })
+  @Prop({ type: Number })
   charge: number;
 
   @Prop()
   doctorProfileId: string;
 
+  @Prop()
+  doctorId: string;
+
+  @Prop()
+  doctorName: string;
+
   @Prop({ type: String, required: true })
   patientId: string;
+
+  @Prop({ type: String })
+  gender: string; // New field matching Prisma
+
+  @Prop({ type: String })
+  phone: string; // New field matching Prisma
 
   @Prop({ type: String })
   firstName: string;
@@ -34,20 +49,20 @@ export class Appointment {
   @Prop({ type: String })
   lastName: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   email: string;
 
-  @Prop({ type: Date, required: true })
+  @Prop({ type: Date })
   dob: Date;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   location: string;
 
-  @Prop({ type: String, required: true })
-  appointment_reason: string;
+  @Prop({ type: String })
+  appointmentReason: string;
 
   @Prop({ type: [String], default: [] })
-  medical_documents: string[];
+  medicalDocuments: string[];
 
   @Prop({ type: String })
   occupation: string;
@@ -62,20 +77,20 @@ export class Appointment {
 
   // Meeting details
   @Prop({ type: String })
-  meeting_link: string;
+  meetingLink: string;
 
   @Prop({ type: String })
-  start_url: string;
+  startUrl: string;
 
   @Prop({ type: String })
-  join_url: string;
+  joinUrl: string;
 
   @Prop({
     type: String,
     enum: ['Google Meet', 'Zoom', 'Microsoft Teams'],
     default: 'Zoom',
   })
-  meeting_provider: string;
+  meetingProvider: string;
 
   @Prop({ type: Boolean, default: false })
   isDelete: boolean;

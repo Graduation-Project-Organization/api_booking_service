@@ -39,12 +39,14 @@ export class AppointmentService {
   }
 
   async createAppointment(body: CreateAppointmentDto) {
+    body.doctorProfileId = body.doctorId;
     const availability = await this.availabilityModel.findOne({
       profileId: body.doctorProfileId,
     });
     console.log('availability is', availability);
     body.appointmentDateTime = this.toUTC(body.appointmentDateTime);
     body.appointmentFormattedDate = body.appointmentDateTime;
+    body.appointmentDate = body.appointmentDateTime;
     const from = new Date(
       new Date(body.appointmentDateTime).getTime() - 2 * 60 * 1000,
     );
@@ -143,7 +145,7 @@ export class AppointmentService {
     if (!appointment) {
       throw new NotFoundException(`Appointment not found`);
     }
-    if (appointment.start_url && appointment.join_url) {
+    if (appointment.startUrl && appointment.joinUrl) {
       throw new NotFoundException(`Meeting already created`);
     }
     if (appointment.status != 'confirmed') {
@@ -157,8 +159,8 @@ export class AppointmentService {
       availability.interval,
       appointment.appointmentFormattedDate,
     );
-    appointment.start_url = meatingDetails.start_url;
-    appointment.join_url = meatingDetails.join_url;
+    appointment.startUrl = meatingDetails.start_url;
+    appointment.joinUrl = meatingDetails.join_url;
     await appointment.save();
     return appointment;
   }
