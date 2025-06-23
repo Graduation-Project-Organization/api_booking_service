@@ -286,7 +286,6 @@ export class SlotService {
         timezone,
       );
 
-      // 1. Find all appointments for this doctor on this day
       const appointments = await this.appointmentModel.find({
         doctorProfileId,
         status: { $in: ['pending', 'confirmed'] },
@@ -314,11 +313,15 @@ export class SlotService {
 
       // 3. Check for mismatched appointments
       for (const appointment of appointments) {
-        const exists = utcWorkingTimes.some(
-          ({ from, to }) =>
-            appointment.appointmentDateTime.getTime() === from.getTime() &&
-            appointment.appointmentEndTime.getTime() === to.getTime(),
+        appointment.appointmentDateTime = new Date(
+          appointment.appointmentDateTime,
         );
+        const exists = utcWorkingTimes.some(({ from, to }) => {
+          return (
+            appointment.appointmentDateTime.getTime() === from.getTime() &&
+            appointment.appointmentEndTime.getTime() === to.getTime()
+          );
+        });
 
         if (!exists) {
           const from = this.getLocalTimeFromUtc(

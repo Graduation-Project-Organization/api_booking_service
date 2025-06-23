@@ -5,7 +5,10 @@ import { HydratedDocument } from 'mongoose';
 @Schema({ timestamps: true })
 export class Availability {
   @Prop({ type: Types.ObjectId })
-  doctorProfileId: string;
+  doctorProfileId: Types.ObjectId;
+
+  @Prop()
+  profileId: string;
 
   @Prop({})
   docId: string;

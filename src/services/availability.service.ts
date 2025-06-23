@@ -11,6 +11,7 @@ import { UpdateAvailability } from '../dtos/update_Avalability';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { DateTime } from 'luxon';
 import { SlotService } from './slot.service';
+import { console } from 'inspector';
 
 @Injectable()
 export class AvailabilityService {
@@ -54,7 +55,7 @@ export class AvailabilityService {
     body: UpdateAvailability,
     timezone?: string,
   ) {
-    body.doctorProfileId = doctorProfileId;
+    const objectId = new Types.ObjectId(doctorProfileId);
     const timesBody = { ...body };
     const days = [
       'saturday',
@@ -65,22 +66,19 @@ export class AvailabilityService {
       'thursday',
       'friday',
     ];
-    const objectId = new Types.ObjectId(doctorProfileId);
+
     let availability = await this.availabilityModel.findOne({
-      doctorProfileId: objectId,
-      // isDelete: false,
+      profileId: doctorProfileId,
     });
+
     if (!availability) {
       availability = await this.availabilityModel.create({
         doctorProfileId: objectId,
+        profileId: doctorProfileId,
         // docId,
       });
     }
-    // if (availability.docId !== docId) {
-    //   throw new BadRequestException(
-    //     'you are not authorized to update this availability',
-    //   );
-    // }
+
     for (let i = 0; i < days.length; i++) {
       const day = days[i];
       if (timesBody[day] && timesBody[day]?.length >= 0) {
@@ -93,6 +91,7 @@ export class AvailabilityService {
         );
       }
     }
+    // return { msg: 'done' };
     for (let i = 0; i < days.length; i++) {
       const day = days[i];
       if (body[day] && body[day].length > 0) {
@@ -109,6 +108,9 @@ export class AvailabilityService {
         new: true,
       },
     );
+
+    console.log('doctor profile id is', doctorProfileId);
+
     for (let i = 0; i < days.length; i++) {
       const day = days[i];
       if (timesBody[day] && timesBody[day]?.length >= 0) {
@@ -130,14 +132,14 @@ export class AvailabilityService {
     return updatedAvaialability;
   }
   async getAvailability(doctorProfileId: string, timezone: string) {
-    const objectId = new Types.ObjectId(doctorProfileId);
     const availability = await this.availabilityModel.findOne({
-      doctorProfileId: objectId,
+      profileId: doctorProfileId,
     });
 
     if (!availability) {
       throw new NotFoundException('availability not found');
     }
+    console.log('avail', availability);
 
     const days = [
       'saturday',

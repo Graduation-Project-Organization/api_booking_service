@@ -40,9 +40,9 @@ export class AppointmentService {
 
   async createAppointment(body: CreateAppointmentDto) {
     const availability = await this.availabilityModel.findOne({
-      doctorProfileId: body.doctorProfileId,
-      isDelete: false,
+      profileId: body.doctorProfileId,
     });
+    console.log('availability is', availability);
     body.appointmentDateTime = this.toUTC(body.appointmentDateTime);
     body.appointmentFormattedDate = body.appointmentDateTime;
     const from = new Date(

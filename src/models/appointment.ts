@@ -4,7 +4,7 @@ import { HydratedDocument } from 'mongoose';
 @Schema({ timestamps: true })
 export class Appointment {
   // Appointment detail
-  @Prop({ type: Date, required: true })
+  @Prop({ type: Date })
   appointmentDateTime: Date;
 
   @Prop({ type: Date })
