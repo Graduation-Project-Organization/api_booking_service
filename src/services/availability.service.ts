@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Availability, AvailabilityDocument } from '../models/availability';
@@ -46,6 +46,7 @@ export class AvailabilityService {
   }
   async updateAvailability(
     doctorProfileId: string,
+    docId: string,
     body: UpdateAvailability,
     timezone?: string,
   ) {
@@ -67,7 +68,11 @@ export class AvailabilityService {
     if (!availability) {
       availability = await this.availabilityModel.create({
         doctorProfileId,
+        docId
       });
+    }
+    if (availability.docId !== docId) {
+      throw new  BadRequestException('you are not authorized to update this availability');
     }
     for (let i = 0; i < days.length; i++) {
       const day = days[i];

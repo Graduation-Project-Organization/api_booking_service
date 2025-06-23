@@ -13,6 +13,10 @@ export class CreateAvailabilityDto {
   @IsString()
   @IsOptional()
   doctorProfileId: string;
+  
+  @IsString()
+  @IsOptional()
+  docId: string;
 
   @IsArray()
   @ArrayUnique()

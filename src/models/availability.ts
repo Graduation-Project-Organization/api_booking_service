@@ -5,7 +5,10 @@ import { HydratedDocument } from 'mongoose';
 export class Availability {
   @Prop({})
   doctorProfileId: string;
-
+  
+  @Prop({})
+  docId: string;
+  
   @Prop({ type: [String], default: [] })
   monday: string[];
 

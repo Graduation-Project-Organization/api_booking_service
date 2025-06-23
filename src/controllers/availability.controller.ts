@@ -9,6 +9,7 @@ import {
   Patch,
   Query,
   Param,
+  Req,
   // Delete,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
@@ -51,6 +52,7 @@ export class AvailabilityController {
     @Body() updateAvailabilityDto: UpdateAvailability,
     @Query('timezone') timezone: string,
     @Param('doctorProfileId') doctorProfileId: string,
+    @Req() req:any
   ) {
     if (!timezone) {
       timezone = 'Africa/Cairo';
@@ -58,6 +60,7 @@ export class AvailabilityController {
     try {
       const response = await this.availabilityService.updateAvailability(
         doctorProfileId,
+        req.user.userId,
         updateAvailabilityDto,
         timezone,
       );
