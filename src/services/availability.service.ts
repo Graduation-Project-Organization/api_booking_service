@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  // BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Availability, AvailabilityDocument } from '../models/availability';
@@ -63,17 +67,20 @@ export class AvailabilityService {
     ];
     let availability = await this.availabilityModel.findOne({
       doctorProfileId,
-      isDelete: false,
+      // isDelete: false,
     });
     if (!availability) {
       availability = await this.availabilityModel.create({
         doctorProfileId,
-        docId
+        // docId,
       });
     }
-    if (availability.docId !== docId) {
-      throw new  BadRequestException('you are not authorized to update this availability');
-    }
+    console.log(availability);
+    // if (availability.docId !== docId) {
+    //   throw new BadRequestException(
+    //     'you are not authorized to update this availability',
+    //   );
+    // }
     for (let i = 0; i < days.length; i++) {
       const day = days[i];
       if (timesBody[day] && timesBody[day]?.length >= 0) {
@@ -123,16 +130,14 @@ export class AvailabilityService {
     return updatedAvaialability;
   }
   async getAvailability(doctorProfileId: string, timezone: string) {
-    let availability = await this.availabilityModel.findOne({
+    const availability = await this.availabilityModel.findOne({
       doctorProfileId,
-      isDelete: false,
     });
-    console.log('availability', availability);
+
     if (!availability) {
-      availability = await this.availabilityModel.create({
-        doctorProfileId,
-      });
+      throw new NotFoundException('availability not found');
     }
+
     const days = [
       'saturday',
       'sunday',

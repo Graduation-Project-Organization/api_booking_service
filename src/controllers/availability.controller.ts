@@ -52,7 +52,7 @@ export class AvailabilityController {
     @Body() updateAvailabilityDto: UpdateAvailability,
     @Query('timezone') timezone: string,
     @Param('doctorProfileId') doctorProfileId: string,
-    @Req() req:any
+    @Req() req: any,
   ) {
     if (!timezone) {
       timezone = 'Africa/Cairo';
