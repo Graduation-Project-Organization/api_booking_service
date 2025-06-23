@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Availability, AvailabilityDocument } from '../models/availability';
 // import { CreateAvailabilityDto } from '../dtos/create_Availability.dto';
 import { UpdateAvailability } from '../dtos/update_Avalability';
@@ -65,17 +65,17 @@ export class AvailabilityService {
       'thursday',
       'friday',
     ];
+    const objectId = new Types.ObjectId(doctorProfileId);
     let availability = await this.availabilityModel.findOne({
-      doctorProfileId,
+      doctorProfileId: objectId,
       // isDelete: false,
     });
     if (!availability) {
       availability = await this.availabilityModel.create({
-        doctorProfileId,
+        doctorProfileId: objectId,
         // docId,
       });
     }
-    console.log(availability);
     // if (availability.docId !== docId) {
     //   throw new BadRequestException(
     //     'you are not authorized to update this availability',
@@ -130,8 +130,9 @@ export class AvailabilityService {
     return updatedAvaialability;
   }
   async getAvailability(doctorProfileId: string, timezone: string) {
+    const objectId = new Types.ObjectId(doctorProfileId);
     const availability = await this.availabilityModel.findOne({
-      doctorProfileId,
+      doctorProfileId: objectId,
     });
 
     if (!availability) {

@@ -1,9 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Types } from 'mongoose';
 import { HydratedDocument } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Availability {
-  @Prop({})
+  @Prop({ type: Types.ObjectId })
   doctorProfileId: string;
 
   @Prop({})
