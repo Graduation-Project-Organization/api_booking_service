@@ -11,7 +11,6 @@ import { UpdateAvailability } from '../dtos/update_Avalability';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { DateTime } from 'luxon';
 import { SlotService } from './slot.service';
-import { console } from 'inspector';
 
 @Injectable()
 export class AvailabilityService {
@@ -56,6 +55,7 @@ export class AvailabilityService {
     timezone?: string,
   ) {
     const objectId = new Types.ObjectId(doctorProfileId);
+    console.log('object id', objectId);
     const timesBody = { ...body };
     const days = [
       'saturday',
@@ -78,6 +78,10 @@ export class AvailabilityService {
         // docId,
       });
     }
+
+    // console.log('object id', objectId);
+
+    console.log('avail', availability);
 
     for (let i = 0; i < days.length; i++) {
       const day = days[i];
