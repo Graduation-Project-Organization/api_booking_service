@@ -34,7 +34,7 @@ export class Appointment {
   @Prop()
   doctorName: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   patientId: string;
 
   @Prop({ type: String })

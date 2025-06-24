@@ -4,7 +4,6 @@ import {
   IsOptional,
   IsArray,
   IsEnum,
-  IsDateString,
 } from 'class-validator';
 
 export class CreateAppointmentDto {
@@ -64,7 +63,7 @@ export class CreateAppointmentDto {
   @IsOptional()
   email?: string;
 
-  @IsDateString()
+  @IsString()
   @IsOptional()
   dob?: string;
 

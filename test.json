@@ -1,0 +1,27 @@
+{
+  "appointmentDateTime": "2025-06-25T15:00:00.000+03:00", // very important
+  "appointmentDate": "2025-06-25",
+  "appointmentFormattedDate": "25 June 2025",
+  "day": "Wednesday",
+  "appointmentTime": "15:00",
+  "charge": 100,
+  "doctorId": "65fabc1234567890abcdef12",
+  "doctorName": "Dr. John Doe",
+  "gender": "male",
+  "phone": "+201234567890",
+  "firstName": "Ahmed",
+  "lastName": "Said",
+  "email": "ahmed@example.com", // optional
+  "dob": "1995-04-10", // optional
+  "location": "Clinic 5, Cairo, Egypt", // optional
+  "appointmentReason": "Routine check-up", // optional
+  "medicalDocuments": [
+    "https://example.com/report1.pdf",
+    "https://example.com/xray2.jpg"
+  ], // optional
+  "occupation": "Engineer",
+  "meetingLink": "https://meet.google.com/example-link", // optional
+  "startUrl": "https://zoom.us/start/example", // optional
+  "joinUrl": "https://zoom.us/j/example", // optional
+  "meetingProvider": "Zoom" // optional
+}
