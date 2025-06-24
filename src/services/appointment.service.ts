@@ -39,7 +39,7 @@ export class AppointmentService {
   }
 
   async createAppointment(body: CreateAppointmentDto) {
-    body.doctorProfileId = body.doctorId;
+    // body.doctorProfileId = body.doctorId;
     const availability = await this.availabilityModel.findOne({
       profileId: body.doctorProfileId,
     });

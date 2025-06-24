@@ -35,6 +35,7 @@ export class CreateAppointmentDto {
   @IsString()
   doctorId: string;
 
+  @IsString()
   doctorProfileId?: string;
 
   @IsString()
