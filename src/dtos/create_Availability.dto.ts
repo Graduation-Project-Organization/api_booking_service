@@ -61,7 +61,7 @@ export class CreateAvailabilityDto {
   @IsNumber()
   @Min(0)
   @IsOptional()
-  session_price?: number = 0.5;
+  session_price?: number;
 
   @IsBoolean()
   @IsOptional()

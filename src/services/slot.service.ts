@@ -159,7 +159,7 @@ export class SlotService {
       );
       const appointment = await this.appointmentModel.findOne({
         doctorProfileId,
-        status: { $in: ['pending', 'confirmed'] },
+        status: { $in: ['pending', 'approved'] },
         appointmentDateTime: { $lt: toTime },
         appointmentEndTime: { $gt: fromTime },
       });
@@ -288,7 +288,7 @@ export class SlotService {
 
       const appointments = await this.appointmentModel.find({
         doctorProfileId,
-        status: { $in: ['pending', 'confirmed'] },
+        status: { $in: ['pending', 'approved'] },
         appointmentDateTime: {
           $gte: new Date(startOfDayUTC),
           $lte: new Date(endOfDayUTC),
