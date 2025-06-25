@@ -68,6 +68,7 @@ export class AppointmentService {
       new Date(appointment.appointmentDateTime).getTime() +
         appointment.interval * 60 * 1000,
     );
+    await appointment.save();
     try {
       const res = await this.createPayment(appointment._id.toString());
       appointment.paymentUrl = res.url;
@@ -75,7 +76,6 @@ export class AppointmentService {
       console.log('payment e', e.message);
       delete appointment.paymentUrl;
     }
-    await appointment.save();
     return appointment;
   }
   async deleteAppointment(id: string) {
@@ -118,7 +118,7 @@ export class AppointmentService {
     if (!appointment) {
       return false;
     }
-    appointment.status = 'confirmed';
+    appointment.status = 'approved';
     const updatedAppointmet = await appointment.save();
     console.log(updatedAppointmet);
     return updatedAppointmet;
