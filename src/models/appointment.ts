@@ -72,8 +72,6 @@ export class Appointment {
 
   @Prop({
     type: String,
-    required: true,
-    enum: ['pending', 'confirmed', 'completed', 'cancelled'],
     default: 'pending',
   })
   status: string;
