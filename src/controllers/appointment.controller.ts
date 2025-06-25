@@ -140,7 +140,7 @@ export class AppointmentController {
   async completePayment(@Param('appointmentId') appointmentId: string) {
     try {
       const response =
-        await this.appointmentService.completeOrder(appointmentId);
+        await this.appointmentService.completeAppointment(appointmentId);
       return ResponseDto.ok(response);
     } catch (err) {
       return ResponseDto.throwBadRequest(err.message, err);

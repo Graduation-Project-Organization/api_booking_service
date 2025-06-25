@@ -81,7 +81,7 @@ export class AppointmentService {
   async deleteAppointment(id: string) {
     const appointment = await this.appointmentModel.findByIdAndUpdate(
       id,
-      { status: 'cancelled' },
+      { status: 'rejected' },
       { new: true },
     );
     if (!appointment) {
@@ -122,10 +122,10 @@ export class AppointmentService {
     appointment.paidAt = new Date();
     await appointment.save();
   }
-  async completeOrder(id: string) {
+  async completeAppointment(id: string) {
     const appointment = await this.appointmentModel.findByIdAndUpdate(
       id,
-      { status: 'completed' },
+      { status: 'approved' },
       { new: true },
     );
     if (!appointment) {
