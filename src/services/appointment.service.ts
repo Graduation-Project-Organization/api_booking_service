@@ -45,8 +45,8 @@ export class AppointmentService {
     });
     console.log('availability is', availability);
     body.appointmentDateTime = this.toUTC(body.appointmentDateTime);
-    body.appointmentFormattedDate = body.appointmentDateTime;
-    body.appointmentDate = body.appointmentDateTime;
+    // body.appointmentFormattedDate = body.appointmentDateTime;
+    // body.appointmentDate = body.appointmentDateTime;
     const from = new Date(
       new Date(body.appointmentDateTime).getTime() - 2 * 60 * 1000,
     );
