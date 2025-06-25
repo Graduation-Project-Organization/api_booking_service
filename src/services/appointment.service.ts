@@ -109,7 +109,6 @@ export class AppointmentService {
     await appointment.save();
     return { url };
   }
-  confirmed
   async capturePayment(orderId: string) {
     const result = await this.paypalService.capturePayment(orderId);
     console.log(result);
