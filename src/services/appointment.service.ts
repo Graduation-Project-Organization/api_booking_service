@@ -119,9 +119,7 @@ export class AppointmentService {
       return false;
     }
     appointment.status = 'approved';
-    const updatedAppointmet = await appointment.save();
-    console.log(updatedAppointmet);
-    return updatedAppointmet;
+    await appointment.save();
   }
   async completeOrder(id: string) {
     const appointment = await this.appointmentModel.findByIdAndUpdate(
