@@ -101,6 +101,12 @@ export class Appointment {
 
   @Prop()
   interval: number;
+
+  @Prop()
+  paidAt: Date;
+
+  @Prop({ default: false })
+  isPaid: boolean;
 }
 
 export type AppointmentDocument = HydratedDocument<Appointment>;

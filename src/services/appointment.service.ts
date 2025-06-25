@@ -118,7 +118,8 @@ export class AppointmentService {
     if (!appointment) {
       return false;
     }
-    appointment.status = 'approved';
+    appointment.isPaid = true;
+    appointment.paidAt = new Date();
     await appointment.save();
   }
   async completeOrder(id: string) {
