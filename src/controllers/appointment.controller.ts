@@ -9,6 +9,7 @@ import {
   Param,
   Patch,
   Query,
+  Res,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../core/jwt-auth-guard/jwt-auth.guard';
@@ -20,6 +21,7 @@ import {
   DoctorAppointmentQueryDto,
   PatientAppointmentQueryDto,
 } from '../dtos/appointment.query.dto';
+import { Response } from 'express';
 
 @Controller('api/v1/appointment')
 @ApiBearerAuth()
@@ -106,19 +108,20 @@ export class AppointmentController {
     }
   }
   @Get('success')
-  async capturePayment(@Query() query: { token: string }) {
+  async capturePayment(
+    @Query() query: { token: string },
+    @Res() res: Response,
+  ) {
     try {
-      const response = await this.appointmentService.capturePayment(
-        query.token,
-      );
-      return ResponseDto.ok(response);
+      await this.appointmentService.capturePayment(query.token);
     } catch (err) {
-      return ResponseDto.throwBadRequest(err.message, err);
+      console.log('error is', err.message);
     }
+    res.redirect('http://localhost:3000/dashboard/user/appointments');
   }
   @Get('cancel')
-  async cancel() {
-    return { status: 'order failed' };
+  async cancel(@Res() res: Response) {
+    res.redirect('http://localhost:3000/dashboard/user/appointments');
   }
 
   @Post('create-zoom-meating/:appointmentId')
@@ -132,12 +135,12 @@ export class AppointmentController {
       return ResponseDto.throwBadRequest(err.message, err);
     }
   }
-  @Patch('complete-payment/:appointmentId')
+  @Patch('complete-appointment/:appointmentId')
   @UseGuards(JwtAuthGuard)
   async completePayment(@Param('appointmentId') appointmentId: string) {
     try {
       const response =
-        await this.appointmentService.completePayment(appointmentId);
+        await this.appointmentService.completeOrder(appointmentId);
       return ResponseDto.ok(response);
     } catch (err) {
       return ResponseDto.throwBadRequest(err.message, err);

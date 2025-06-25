@@ -68,6 +68,13 @@ export class AppointmentService {
       new Date(appointment.appointmentDateTime).getTime() +
         appointment.interval * 60 * 1000,
     );
+    try {
+      const res = await this.createPayment(appointment._id.toString());
+      appointment.paymentUrl = res.url;
+    } catch (e) {
+      console.log('payment e', e.message);
+      delete appointment.paymentUrl;
+    }
     await appointment.save();
     return appointment;
   }
@@ -116,7 +123,7 @@ export class AppointmentService {
     console.log(updatedAppointmet);
     return updatedAppointmet;
   }
-  async completePayment(id: string) {
+  async completeOrder(id: string) {
     const appointment = await this.appointmentModel.findByIdAndUpdate(
       id,
       { status: 'completed' },

@@ -50,6 +50,9 @@ export class Appointment {
   lastName: string;
 
   @Prop({ type: String })
+  paymentUrl: string;
+
+  @Prop({ type: String })
   email: string;
 
   @Prop({ type: Date })
