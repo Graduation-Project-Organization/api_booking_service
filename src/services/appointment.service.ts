@@ -109,6 +109,7 @@ export class AppointmentService {
     await appointment.save();
     return { url };
   }
+  confirmed
   async capturePayment(orderId: string) {
     const result = await this.paypalService.capturePayment(orderId);
     console.log(result);
@@ -153,7 +154,7 @@ export class AppointmentService {
     if (appointment.startUrl && appointment.joinUrl) {
       throw new NotFoundException(`Meeting already created`);
     }
-    if (appointment.status != 'confirmed') {
+    if (appointment.status != 'approved') {
       throw new BadRequestException(`User should pay before add meating`);
     }
     const availability = await this.availabilityModel.findOne({
